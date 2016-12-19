@@ -1,2 +1,6 @@
 # huma-sudo
-Simulation of human sudoku playing
+Simulation de joueur humain de sudoku
+
+Petit projet développé en Python. Il résout des grilles de sudoku en simulant un joueur humain, donc en excluant la résolution par force brute, et le calcul de coups en avant. Au contraire les techniques de résolution utilisées sont des simulations de techniques humaines avec toutes leurs limites. Le programme simule aussi la "mémoire de travail" du joueur : le fait de ne pouvoir mémoriser qu'une quantité limitée d'information et d'oublier les plus anciennes. Ainsi, observer toute la grille ne permet pas de la mémoriser entièrement, il faut en permanence aller chercher visuellement des indices, même si on a déjà vu ces indices quelques minutes auparavant. Le programme reproduit cela comme dans le jeu humain réel.
+Le niveau de jeu peut être calibré pour bien simuler celui d'un joueur réel de niveau variable, en fonction des techniques simulées et de l'habileté simulée à choisir la bonne technique en fonction du contexte. Il est donc logique qu'une partie conduise à un abandon si le joueur simulé est trop faible pour la grille jouée.
+Il est possible d'ajouter des capacité d'apprentissage pour que le joueur progresse de partie en partie, par exemple. 
