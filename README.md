@@ -9,13 +9,12 @@ Il y a évidemment une limite de niveau car le programme ne simule pas la possib
 
 A l'inverse, il y a une simulation d'intelligence. D'une part le programme reproduit des techniques de résolution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carré) et des opportunités apparues après un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en utiliser une autre.
 
-Enfin le programme simule une capacité d'apprentissage grâce à du code de type réseau neuronal. Par conséquent des choses qui marchent bien seront préférées par la suitej
+Enfin le programme simule une capacité d'apprentissage grâce à du code de type réseau neuronal. Par conséquent des choses qui marchent bien seront préférées par la suite.
 
-Le "niveau du joueur" est calibré par des profils de mémoire et d'intelligence qui tentent d'être des simulations réalistes. Il est donc tout-à-fait logique qu'un joueur échoue à résoudre une grille trop compliquée pour lui.
+Le "niveau du joueur" est calibré par des profils de mémoire et d'intelligence qui tentent d'être des simulations réalistes. Il est donc tout-à-fait logique qu'un joueur échoue à résoudre une grille trop compliquée pour lui. La rapidité du jeu est adaptée via des fonctions temporelles, sachant que le but est plus de voir comment le programme progresse, que de résoudre le plus vite possible.
 
-C'est un projet évolutif car il est toujours possible d'améliorer le réalisme de la simulation. Un bon exemple est la mémoire, car la mémoire humaine est associative d'une manière quasi-infinie. Cela est très difficile à simuler.
+C'est un projet évolutif car il est toujours possible d'améliorer le réalisme de la simulation. Un bon exemple est la mémoire, car la mémoire humaine est associative d'une manière quasi-infinie. Cela est très difficile à simuler. De même pour l'intelligence artificielle. Il y a donc un gros potentiel pour améliorer le niveau de jeu tout en améliorant le réalisme de la simulation.
 
-sur le plan des interfaces, le code de simulation est entièrement distinct de celui des E/S. Il est donc possible d'ajouter facilement des modes d'interface, par exemple fenêtrés. 
-Dans la version actuelle les grilles sont lues comme des listes de chiffres (ou 0 représente une case vide). Il est donc possible et facile d'interfacer le programme avec des générateurs de grilles, ou d'utiliser des fichiers de format texte, Excel, etc.
+Sur le plan des interfaces, le code de simulation est entièrement distinct de celui des E/S. Il est donc possible d'ajouter facilement des modes d'affichage, par exemple fenêtrés. Dans la version actuelle les grilles sont lues comme des listes de chiffres (ou 0 représente une case vide). Il est donc possible et facile d'interfacer le programme avec des générateurs de grilles, ou d'utiliser des fichiers de format texte, Excel, etc. Enfin le programme fonctionne par itération infinie de boucles réflexion/observation/placement/mémorisation/apprentissage. Chaque itération fait une seule action élémentaire, par exemple chercher une info dans la grille ou placer un chiffre. Donc le code est naturellement adapté à une interface d'exécution événementielle.
 
 Le code contient déjà des fonctions paramétrables de journalisation (log) des actions. Cela permet de suivre comment le programme a joué, et c'est aussi très utile pour tester et débugger.
