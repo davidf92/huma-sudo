@@ -1,4 +1,4 @@
-# huma-sudo
+# Human Sudoku
 Simulation de joueur humain de sudoku
 
 Projet développé en Python 3, entièrement en code objet. Il simule un joueur humain qui tente de résoudre une grille de Sudoku. Le programme n'utilise pas la force brute ni aucune optimisation algorithmique et ne cherche pas la rapidité. Au contraire il tente de reproduire fidèlement les contraintes et limites de l'homme pour ce jeu. 
