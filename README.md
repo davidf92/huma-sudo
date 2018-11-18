@@ -1,4 +1,4 @@
-# Human Sudoku
+# SudoSimu
 Simulation de joueur humain de sudoku
 
 Projet développé en Python 3, entièrement en paradigme objet. Il simule un joueur humain qui tente de résoudre une grille de Sudoku. Le programme n'utilise pas la force brute ni aucune optimisation algorithmique et ne cherche pas la rapidité. Au contraire il tente de reproduire fidèlement la cognition avec ses capacités et ses limites : exploration visuelle de la grille, réflexion, mémoire, intuition, expérience du jeu.
@@ -11,7 +11,7 @@ Le programe ne comporte aucun algorithme de résolution certaine, donc il ne peu
 Une interface complète permet de suivre le raisonnement, les prises de décision, les informations recherchées et observées dans la grille, les techniques choisies ainsi que leur déroulement. Elle permet également de suivre les limites et défaillance de mémoire qui obligent parfois à devoir rechercher des informations précédemment connues ou à devoir reprendre un raisonnement à son début. A l'inverse la résolution peut être exécutée sans aucun affichage jusqu'à son résultat : résolution ou échec, ainsi que log et statistiques. Le détail et les domaines d'informations sorties / affichées sont largement paramétrables, allant jusqu'à la capacité de test du code au niveau élémentaire. 
 Il est possible d'exécuter des résolutions simultanées en batch, par exemple dans le but d'en comparer les résultats, un peu à l'exemple des parties simultanées d'échecs et autres jeux de réflexion.
 
-Implémentation du réalisme :
+##Implémentation du réalisme :
 
 a/ Classe SudoThinking : la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
 
@@ -28,7 +28,7 @@ f/ Classe SudoLearning : la capacité d'apprentissage, tant au fil de la résolu
 
 g/ Classe SudoPlayerProfile : le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
 
-Interfaces :
+##Interfaces :
 
 Une interface graphique repose sur Tkinter et Tix. Elle est entièrement compatible avec le paradigme événementiel. Elle permet une exécution du simulateur seul ainsi que l'intégration sous forme de package dans un programme extérieur et l'intégration dans l'interface GUI événementielle dudit programme.
 La modularité de l'interface utilisateur permet aisément de modifier ou d'ajouter d'autres modes d'E/S (ex: console) ou d'autres librairies GUI.
