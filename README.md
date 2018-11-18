@@ -13,22 +13,35 @@ Il est possible d'exécuter des résolutions simultanées en batch, par exemple 
 
 ### Implémentation du réalisme :
 
-a/ **Classe SudoThinking** : la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
+**Classe SudoThinking** -- la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
 
-b/ **Classe SudoMemory** : La mémoire qui permet de savoir ce que l'on est en train de faire, ce que l'on voit, ce que l'on pense. C'est donc ce que l'on appelle une mémoire de travail. Elle est limitée de manière réaliste par la quantité d'informations et l'oubli plus ou moins rapide.
+**Classe SudoMemory** -- La mémoire qui permet de savoir ce que l'on est en train de faire, ce que l'on voit, ce que l'on pense. C'est donc ce que l'on appelle une mémoire de travail. Elle est limitée de manière réaliste par la quantité d'informations et l'oubli plus ou moins rapide.
 Remarque : la résolution se fait sans notes, entièrement de mémoire.
 
-c/ **Classe SudoGridView** : la recherche visuelle dans la grille. Le simulateur ne dispose d'aucun moyen de connaissance et mémorisation complète de la grille. Celle-ci ne peut être connue que de manière parcellaire, ce qui nécessite de l'explorer du regard à la recherche d'informations, des chiffres présents, des cases vides et de leurs combinaisons. La mémoire permet au joueur de se remémorer plus ou moins longtemps ce qu'il a vu de la grille.
+**Classe SudoGridView** -- la recherche visuelle dans la grille. Le simulateur ne dispose d'aucun moyen de connaissance et mémorisation complète de la grille. Celle-ci ne peut être connue que de manière parcellaire, ce qui nécessite de l'explorer du regard à la recherche d'informations, des chiffres présents, des cases vides et de leurs combinaisons. La mémoire permet au joueur de se remémorer plus ou moins longtemps ce qu'il a vu de la grille.
 
-d/ **Classes SudoTechxxxxxx** : des techniques de résolution réalistes, qui consistent en enchaînements logiques et systématiques dans tout ou partie de la grille à la recherche d'informations (donc des observations de la grille), qui aboutissent éventuellement à la découverte d'un placement possible.
+**Classes SudoTechxxxxxx** -- des techniques de résolution réalistes, qui consistent en enchaînements logiques et systématiques dans tout ou partie de la grille à la recherche d'informations (donc des observations de la grille), qui aboutissent éventuellement à la découverte d'un placement possible.
 
-e/ **Classes SudoThinkAI et SudoAIxxxx** : la réflexion de plus haut niveau (sorte d'intelligence artificielle), la capacités de décision, l'évaluation d'opportunités, la prise en compte d'intuitions, la notion de choix "prudent" ou au contraire "optimiste" voire "agressif". D'une part le programme reproduit des techniques de résolution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carré) et des opportunités apparues après un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en choisir une autre.
+**Classes SudoThinkAI et SudoAIxxxx** -- la réflexion de plus haut niveau (sorte d'intelligence artificielle), la capacités de décision, l'évaluation d'opportunités, la prise en compte d'intuitions, la notion de choix "prudent" ou au contraire "optimiste" voire "agressif". D'une part le programme reproduit des techniques de résolution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carré) et des opportunités apparues après un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en choisir une autre.
 
-f/ **Classe SudoLearning** : la capacité d'apprentissage, tant au fil de la résolution d'une grille que d'une grille à l'autre. Par exemple les enchaînements qui "marchent" plus ou moins bien selon que la grille est plus ou moins remplie, ou au contraire ce qui est de la perte de temps.
+**Classe SudoLearning** -- la capacité d'apprentissage, tant au fil de la résolution d'une grille que d'une grille à l'autre. Par exemple les enchaînements qui "marchent" plus ou moins bien selon que la grille est plus ou moins remplie, ou au contraire ce qui est de la perte de temps.
 
-g/ **Classe SudoPlayerProfile** : le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
+**Classe SudoPlayerProfile** -- le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
+
+### Implémentations de bas niveau
+
+**Classe SudoGrid** -- Modélisation de la grille. C'est la seule classe liée à la simulation qui est exempte du besoin de réalisme. 
+Une seule autre classe accède à SudoGrid, c'est SudoGridView qui simule les "observations" de la grille. Aucune autre classe de simulation, notamment SudoThinking et SudoMemory, n'y a un accès direct, et le code source de ces classes n'importe même pas le module dans lequel est codée SudoGrid.
+
+**Classe SudoRules** -- Définit les règles du Sudoku qui sont la liste de 1 à 9 et les unicités de chiffres par groupement. SudoRules est utilisée dans SudoGrid et dans le code qui effectue les placements pour en vérifier la régularité. Définit aussi la hiérarche des exceptions utilisées dans le programme, principalement pour prendre en compte les défaillance de mémoire et de réflexion.
 
 ### Implémentations des fonctions techniques :
+
+**Classe SudoEnv** -- L'environnemnet de la simulation : regroupe toutes les interfaces, les interactions, les affichages.
+
+**Classe SudoUI et SudoGUI** -- Les interfaces utilisateurs, dont GUI basé sur Tkinter.
+
+**Classe SudoTest** -- Les fonctions de test et d'affichage conditionnel présentes dans tout le code source du programme.
 
 ### Interfaces :
 
