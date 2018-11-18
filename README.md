@@ -1,5 +1,5 @@
 # SudoSimu
-Simulation de joueur humain de sudoku
+**Simulation de joueur humain de sudoku**
 
 Projet développé en Python 3, entièrement en paradigme objet. Il simule un joueur humain qui tente de résoudre une grille de Sudoku. Le programme n'utilise pas la force brute ni aucune optimisation algorithmique et ne cherche pas la rapidité. Au contraire il tente de reproduire fidèlement la cognition avec ses capacités et ses limites : exploration visuelle de la grille, réflexion, mémoire, intuition, expérience du jeu.
 
@@ -28,15 +28,15 @@ f/ Classe SudoLearning : la capacité d'apprentissage, tant au fil de la résolu
 
 g/ Classe SudoPlayerProfile : le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
 
-## Interfaces :
+### Interfaces :
 
 Une interface graphique repose sur Tkinter et Tix. Elle est entièrement compatible avec le paradigme événementiel. Elle permet une exécution du simulateur seul ainsi que l'intégration sous forme de package dans un programme extérieur et l'intégration dans l'interface GUI événementielle dudit programme.
 La modularité de l'interface utilisateur permet aisément de modifier ou d'ajouter d'autres modes d'E/S (ex: console) ou d'autres librairies GUI.
 Une interface système permet de lire et écrire des fichiers formatés qui définissent une grille, ainsi que d'enregister en fichier des logs d'exécution, des statistiques de performance et des progressions. Il y a plusieurs formats de modélisations de grille qui permettent facilement d'interfacer avec des générateurs de grilles aléatoires.
-Il n'y a aucune dépendance du système sous-jacent ni de sa distribution et seules les librairies Pythonstandards
+Il n'y a aucune dépendance du système sous-jacent ni de sa distribution et seules les librairies Python standards sont utilisées.
 
 
-## Note sur le développement et sur le code : 
+### Note sur le développement et sur le code : 
 
 Le code privilégie une utilisation propre et complète de Python, dans un style lisible pour ne pas dire scolaire. C'est du Python 3, la compatibilité avec Python 2.7 n'est pas assurée. Les commentaires et sauts de lignes sont abondants au détriment volontaire de la compacité. Toutes les classes et fonctions sont documentées de manière standard.
 Le code est très structuré, les noms de variables et d'objets sont composés et explicites. Le découpage et la modularité sont fins avec des fonctions nombreuses et courtes pour la clareté et la lisibilité. Les modules sont nombreux et la plupart codent une seule classe. Le paradigme objet est strictement respecté, il n'y a pas de variables globales à part des constantes, il n'y a quasiment pas de fonctions à l'extérieur des classes. A l'inverse, le code utilise autant que possible tous les types de collections, d'itérations, des fonctions lambda. Les classes utilisent des méthodes courtes, simples et nombreuses ainsi que des propriétés, seters et geters. Il y a de l'héritage de classes. Le code utilise systématiquements les exceptions et le contrôle de leur propagation partout où cela est pertinent.Le programme est regroupé dans un package et des sous-packages et utilise abondamment les imports. 
