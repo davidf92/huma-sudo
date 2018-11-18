@@ -11,22 +11,24 @@ Le programe ne comporte aucun algorithme de résolution certaine, donc il ne peu
 Une interface complète permet de suivre le raisonnement, les prises de décision, les informations recherchées et observées dans la grille, les techniques choisies ainsi que leur déroulement. Elle permet également de suivre les limites et défaillance de mémoire qui obligent parfois à devoir rechercher des informations précédemment connues ou à devoir reprendre un raisonnement à son début. A l'inverse la résolution peut être exécutée sans aucun affichage jusqu'à son résultat : résolution ou échec, ainsi que log et statistiques. Le détail et les domaines d'informations sorties / affichées sont largement paramétrables, allant jusqu'à la capacité de test du code au niveau élémentaire. 
 Il est possible d'exécuter des résolutions simultanées en batch, par exemple dans le but d'en comparer les résultats, un peu à l'exemple des parties simultanées d'échecs et autres jeux de réflexion.
 
-## Implémentation du réalisme :
+### Implémentation du réalisme :
 
-a/ Classe SudoThinking : la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
+a/ **Classe SudoThinking** : la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
 
-b/ Classe SudoMemory : La mémoire qui permet de savoir ce que l'on est en train de faire, ce que l'on voit, ce que l'on pense. C'est donc ce que l'on appelle une mémoire de travail. Elle est limitée de manière réaliste par la quantité d'informations et l'oubli plus ou moins rapide.
+b/ **Classe SudoMemory** : La mémoire qui permet de savoir ce que l'on est en train de faire, ce que l'on voit, ce que l'on pense. C'est donc ce que l'on appelle une mémoire de travail. Elle est limitée de manière réaliste par la quantité d'informations et l'oubli plus ou moins rapide.
 Remarque : la résolution se fait sans notes, entièrement de mémoire.
 
-c/ Classe SudoGridView : la recherche visuelle dans la grille. Le simulateur ne dispose d'aucun moyen de connaissance et mémorisation complète de la grille. Celle-ci ne peut être connue que de manière parcellaire, ce qui nécessite de l'explorer du regard à la recherche d'informations, des chiffres présents, des cases vides et de leurs combinaisons. La mémoire permet au joueur de se remémorer plus ou moins longtemps ce qu'il a vu de la grille.
+c/ **Classe SudoGridView** : la recherche visuelle dans la grille. Le simulateur ne dispose d'aucun moyen de connaissance et mémorisation complète de la grille. Celle-ci ne peut être connue que de manière parcellaire, ce qui nécessite de l'explorer du regard à la recherche d'informations, des chiffres présents, des cases vides et de leurs combinaisons. La mémoire permet au joueur de se remémorer plus ou moins longtemps ce qu'il a vu de la grille.
 
-d/ Classes SudoTechxxxxxx : des techniques de résolution réalistes, qui consistent en enchaînements logiques et systématiques dans tout ou partie de la grille à la recherche d'informations (donc des observations de la grille), qui aboutissent éventuellement à la découverte d'un placement possible.
+d/ **Classes SudoTechxxxxxx** : des techniques de résolution réalistes, qui consistent en enchaînements logiques et systématiques dans tout ou partie de la grille à la recherche d'informations (donc des observations de la grille), qui aboutissent éventuellement à la découverte d'un placement possible.
 
-e/ Classes SudoThinkAI et SudoAIxxxx : la réflexion de plus haut niveau (sorte d'intelligence artificielle), la capacités de décision, l'évaluation d'opportunités, la prise en compte d'intuitions, la notion de choix "prudent" ou au contraire "optimiste" voire "agressif". D'une part le programme reproduit des techniques de résolution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carré) et des opportunités apparues après un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en choisir une autre.
+e/ **Classes SudoThinkAI et SudoAIxxxx** : la réflexion de plus haut niveau (sorte d'intelligence artificielle), la capacités de décision, l'évaluation d'opportunités, la prise en compte d'intuitions, la notion de choix "prudent" ou au contraire "optimiste" voire "agressif". D'une part le programme reproduit des techniques de résolution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carré) et des opportunités apparues après un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en choisir une autre.
 
-f/ Classe SudoLearning : la capacité d'apprentissage, tant au fil de la résolution d'une grille que d'une grille à l'autre. Par exemple les enchaînements qui "marchent" plus ou moins bien selon que la grille est plus ou moins remplie, ou au contraire ce qui est de la perte de temps.
+f/ **Classe SudoLearning** : la capacité d'apprentissage, tant au fil de la résolution d'une grille que d'une grille à l'autre. Par exemple les enchaînements qui "marchent" plus ou moins bien selon que la grille est plus ou moins remplie, ou au contraire ce qui est de la perte de temps.
 
-g/ Classe SudoPlayerProfile : le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
+g/ **Classe SudoPlayerProfile** : le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
+
+### Implémentations des fonctions techniques :
 
 ### Interfaces :
 
