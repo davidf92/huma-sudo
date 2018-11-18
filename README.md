@@ -11,7 +11,7 @@ Le programe ne comporte aucun algorithme de résolution certaine, donc il ne peu
 Une interface complète permet de suivre le raisonnement, les prises de décision, les informations recherchées et observées dans la grille, les techniques choisies ainsi que leur déroulement. Elle permet également de suivre les limites et défaillance de mémoire qui obligent parfois à devoir rechercher des informations précédemment connues ou à devoir reprendre un raisonnement à son début. A l'inverse la résolution peut être exécutée sans aucun affichage jusqu'à son résultat : résolution ou échec, ainsi que log et statistiques. Le détail et les domaines d'informations sorties / affichées sont largement paramétrables, allant jusqu'à la capacité de test du code au niveau élémentaire. 
 Il est possible d'exécuter des résolutions simultanées en batch, par exemple dans le but d'en comparer les résultats, un peu à l'exemple des parties simultanées d'échecs et autres jeux de réflexion.
 
-##Implémentation du réalisme :
+## Implémentation du réalisme :
 
 a/ Classe SudoThinking : la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
 
@@ -28,7 +28,7 @@ f/ Classe SudoLearning : la capacité d'apprentissage, tant au fil de la résolu
 
 g/ Classe SudoPlayerProfile : le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
 
-##Interfaces :
+## Interfaces :
 
 Une interface graphique repose sur Tkinter et Tix. Elle est entièrement compatible avec le paradigme événementiel. Elle permet une exécution du simulateur seul ainsi que l'intégration sous forme de package dans un programme extérieur et l'intégration dans l'interface GUI événementielle dudit programme.
 La modularité de l'interface utilisateur permet aisément de modifier ou d'ajouter d'autres modes d'E/S (ex: console) ou d'autres librairies GUI.
@@ -36,7 +36,7 @@ Une interface système permet de lire et écrire des fichiers formatés qui déf
 Il n'y a aucune dépendance du système sous-jacent ni de sa distribution et seules les librairies Pythonstandards
 
 
-Note sur le développement et sur le code : 
+## Note sur le développement et sur le code : 
 
 Le code privilégie une utilisation propre et complète de Python, dans un style lisible pour ne pas dire scolaire. C'est du Python 3, la compatibilité avec Python 2.7 n'est pas assurée. Les commentaires et sauts de lignes sont abondants au détriment volontaire de la compacité. Toutes les classes et fonctions sont documentées de manière standard.
 Le code est très structuré, les noms de variables et d'objets sont composés et explicites. Le découpage et la modularité sont fins avec des fonctions nombreuses et courtes pour la clareté et la lisibilité. Les modules sont nombreux et la plupart codent une seule classe. Le paradigme objet est strictement respecté, il n'y a pas de variables globales à part des constantes, il n'y a quasiment pas de fonctions à l'extérieur des classes. A l'inverse, le code utilise autant que possible tous les types de collections, d'itérations, des fonctions lambda. Les classes utilisent des méthodes courtes, simples et nombreuses ainsi que des propriétés, seters et geters. Il y a de l'héritage de classes. Le code utilise systématiquements les exceptions et le contrôle de leur propagation partout où cela est pertinent.Le programme est regroupé dans un package et des sous-packages et utilise abondamment les imports. 
