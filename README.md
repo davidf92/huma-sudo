@@ -61,4 +61,10 @@ Tout les modules sont exécutables directement dans un interpréteur (if __name__ 
 
 Pour ce qui est de l'import du package dans un programme "extérieur", ce dernier peut facilement paramétrer la propagation des exceptions et l'exécution conditionnelle du code de test intégré.
 
-C'est un projet évolutif car il est toujours possible d'améliorer le réalisme de la simulation. Un bon exemple est la mémoire, car la mémoire humaine est associative d'une manière quasi-infinie. Cela est très difficile à simuler. De même pour l'intelligence artificielle. Il y a donc un gros potentiel pour améliorer le niveau de jeu tout en améliorant le réalisme de la simulation.
+Suite du projet
+
+C'est un projet évolutif car il est toujours possible d'améliorer le réalisme de la simulation, d'ajouter de nouvelles techniques et d'en intégrer l'utilisation via l'AI, d'enrichir la capacité de décision en prenant en compte plus de combinaisons de situations, d'affiner les profils de capacités et limitations de mémoire et de réflexion. Un domaine particulier à développer est la modélisation de la mémoire : car la mémoire humaine est associative d'une manière quasi-infinie. Cela est très difficile à simuler. De même pour l'intelligence artificielle en développant des réseaux de neurones.
+
+Pour améliorer le "niveau" de résolution en conservant le réalisme, il faudra incontournablement ajouter des techniques plus puissantes. En revanche celles-ci sont en général plus longues à exécuter dans la réalité, donc vouloir les utiliser systématiquement (pour leur puissance) plutôt que des techniques plus simples irait à l'encontre du réalisme de recherche de simplicité et de rapidité. Ajouter des techniques va donc de pair avec leur prise en compte précise dans l'AI et le système de décision.
+
+Il y a donc dans l'ensemble un gros potentiel pour prolonger ce projet et améliorer le niveau de jeu tout en améliorant le réalisme de la simulation.
