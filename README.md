@@ -61,7 +61,7 @@ Tout les modules sont exécutables directement dans un interpréteur (if __name_
 
 Pour ce qui est de l'import du package dans un programme "extérieur", ce dernier peut facilement paramétrer la propagation des exceptions et l'exécution conditionnelle du code de test intégré.
 
-###Suite du projet
+### Suite du projet
 
 C'est un projet évolutif car il est toujours possible d'améliorer le réalisme de la simulation, d'ajouter de nouvelles techniques et d'en intégrer l'utilisation via l'AI, d'enrichir la capacité de décision en prenant en compte plus de combinaisons de situations, d'affiner les profils de capacités et limitations de mémoire et de réflexion. Un domaine particulier à développer est la modélisation de la mémoire : car la mémoire humaine est associative d'une manière quasi-infinie. Cela est très difficile à simuler. De même pour l'intelligence artificielle en développant des réseaux de neurones.
 
