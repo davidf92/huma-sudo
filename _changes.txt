@@ -1,0 +1,33 @@
+Master-171231
+Merge du Fork-171211-ai-opport-arbit 
+Master précédent : Master-171211
+
+Mises-à-jour
+----------------
+1) Evolution de l'AI, première étape d'une structure de réseau de neurones :
+- 3 couches, critères, règles et tactique de décision, 
+   -- classes SudoAIcritSet, SudoAIcrit, SudoAIruleSet, SudoAIrule dans sudoairules.py
+   -- classe SudoAItactics dans sudoaitact.py
+- Réorganisation du code :
+   -- sudoaiconst.py - regroupe toutes les constantes du code AI
+   -- sudoairules.py - couches de neurones critères et règles
+   -- sudoaitact.py - couche de décision et tactique de jeu
+   -- sudoainode.py - modèle de noeud neuronal (pas encore utilisé)
+- Modifications dans sudothinkai.py pour bien intégrer cette structure de décision
+2) Autres modifications mineures dans quelques scripts en relation avec le haut niveau = joueur et partie 
+
+Fichiers modifiés
+---------------------
+sudoai.py
+sudoaiconst.py
+sudoainode.py
+sudoairules.py
+sudoaitact.py
+sudoenv.py
+sudogridview.py
+sudomemory.py
+sudoplayer.py
+sudotest.py
+sudotestall.py
+sudothinkai.py
+sudothinking.py
