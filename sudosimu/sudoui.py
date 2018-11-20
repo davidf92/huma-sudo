@@ -1,22 +1,23 @@
+# -*- coding: cp1252 -*-
+
 '''HumaSudo - Module sudoui - User Interface.
 
-Ce module contient un ensemble de fonctions qui gÃ¨rent l'interface utilisateur
+Ce module contient un ensemble de fonctions qui gèrent l'interface utilisateur
 du programme. Cette interface comprend des E/S de type console texte (mode STD)
 et des E/S graphiques. Les fonctions d'affichage de texte sont communes aux
 deux modes d'affichage.
-Ce module contient galement des fonctions d'interface fichier qui ont vocation Ã 
-Ãªtre dÃ©placÃ©es dans un module spÃ©cifique.
+Ce module contient galement des fonctions d'interface fichier qui ont vocation à
+être déplacées dans un module spécifique.
 
-Ce module ne dÃ©finit aucune classe, l'interface UI n'est pas codÃ©e en objet.
+Ce module ne définit aucune classe, l'interface UI n'est pas codée en objet.
 
-L'interface UI est indÃ©pendante de la logique de simulation humaine. Par
-consÃ©quent elle n'utilise aucun classe relative Ã  la simulation telle que
+L'interface UI est indépendante de la logique de simulation humaine. Par
+conséquent elle n'utilise aucun classe relative à la simulation telle que
 SudoMemory ou SudoThinking. En revanche elle s'appuie sur les classes qui
-dÃ©finissent la grille (SudoGrid) et les rÃ¨gles du Sudoku (SudoRules)
+définissent la grille (SudoGrid) et les règles du Sudoku (SudoRules)
 
 
 Liste des fonctions UI :
-------------------------
     UImode(mode=None)
     openGUI(grid=None)
     closeGUI()
@@ -32,22 +33,26 @@ Liste des fonctions UI :
     displayGridAll(grid)
     displayGridRemove(row, col)
     displayGridClear()
-    sudoPause(continuer=False)
-
+    pause(continuer=False)
+    sudoPause(continuer=False)  #COMPATIBILITE
 Liste des fonctions fichiers :
-------------------------------
     sudoFichReadLines(nomFich, pr=False)
     sudoFichReadLists(nomFich, pr=False)
     sudoNomTestFich()
     sudoNumTestFich(racine="grille_test")
 
-DerniÃ¨re mise Ã  jour : 22/11/2017
 
+Dernière mise à jour : 14/11/2018
 Historique des modifications :
-22/11/2017 - Correction de display() pour un argument absent -> saut de ligne
-17/11/2017 - (a)Passage aux constantes cumulables pour mieux gÃ©rer la combinaison
-    de modes console et graphique. (b)Nouvelles constantes plus claires dans le
-    package.
+14/11/2018
+    Correction bug dans _sudoFichGrid_ appel display() incorrect.
+    ajout de pause(), sudoPause() devient obsolete.
+22/11/2017
+    Correction de display() pour un argument absent -> saut de ligne
+17/11/2017
+    (a)Passage aux constantes cumulables pour mieux gérer la combinaison
+    de modes console et graphique.
+    (b)Nouvelles constantes plus claires dans le package.
 '''
 
 
@@ -66,18 +71,18 @@ else:
     raise Exception("Impossible de faire les imports dans le module sudoui.")
 
     
-#Les modes UI peuvent Ãªtre ajoutÃ©s, ex: STD + GUI, pour utiliser les deux
-#interfaces simultanÃ©ment.
+#Les modes UI peuvent être ajoutés, ex: STD + GUI, pour utiliser les deux
+#interfaces simultanément.
 STD = "ui_std"
 GUI = "ui_gui"
 BOTH = STD + GUI
-#nouvelles constantes. Faire les remplacements pour rendre les autres obsolÃ¨tes
+#nouvelles constantes. Faire les remplacements pour rendre les autres obsolètes
 #car elles ne sont pas suffisamment explicites dans le cadre du package.
 UI_STD = "ui_std"
 UI_GUI = "ui_gui"
 UI_BOTH = UI_STD + UI_GUI
 
-__uimode = UI_STD    #le mode d'interface : standard (par dÃ©faut) ou graphique
+__uimode = UI_STD    #le mode d'interface : standard (par défaut) ou graphique
 __gui = None        #l'objet global d'interface graphique
 
 
@@ -85,7 +90,7 @@ __gui = None        #l'objet global d'interface graphique
 def UImode(mode=None):
     '''Fixe le nouveau mode d'interface utilisateur. S'il n'y a pas d'argument,
     retourne simplement le mode actif. Si le mode est GUI, affiche optionnellement
-    le contenu actuel de la grille indiquÃ©e.
+    le contenu actuel de la grille indiquée.
     '''
     global __gui
     global __uimode
@@ -93,7 +98,7 @@ def UImode(mode=None):
         return __uimode
     #elif mode == GUI:
     elif GUI in mode:
-        #crÃ©er l'interface graphique si Ã§a n'est pas dÃ©jÃ  fait
+        #créer l'interface graphique si ça n'est pas déjà fait
         if openGUI():
             __gui.activate()
 ##            if restoreGrid==True:
@@ -108,13 +113,13 @@ def UImode(mode=None):
     return 
 
 def GUIactive():
-    '''Retourne True ou False suivant que le mode GUI est activÃ© ou non'''
+    '''Retourne True ou False suivant que le mode GUI est activé ou non'''
     return isinstance(__gui, gui.SudoGUI)
 
 def openGUI(grid=None):
-    '''CrÃ©e et ouvre la fenÃªtre l'interface GUI sans la rendre active. Si une
-    grille est indiquÃ©e optionnellement, affiche son contenu.
-    Retourne 'True' si la fenÃªtre est ouverte ou l'Ã©tait dÃ©jÃ , sinon 'False'.
+    '''Crée et ouvre la fenêtre l'interface GUI sans la rendre active. Si une
+    grille est indiquée optionnellement, affiche son contenu.
+    Retourne 'True' si la fenêtre est ouverte ou l'était déjà, sinon 'False'.
     '''
     global __gui
     if not GUIactive():
@@ -126,19 +131,19 @@ def openGUI(grid=None):
             displayError("Interface utilisateur", \
                          "Impossible d'activer le mode graphique")
             return False
-    #rendre la fenÃªtre visible et Ã  jour de son affichage
+    #rendre la fenêtre visible et à jour de son affichage
     __gui.show()
     __gui.update()
     if isinstance(grid, sudogrid.SudoGrid):
-        #afficher les chiffre de la grille de jeu si elle est indiquÃ©e
+        #afficher les chiffre de la grille de jeu si elle est indiquée
         __gui._grid.displayAllGrid(grid)
 
     return True
     
 def closeGUI():
-    '''Ferme la fenÃªtre graphique et repasse en mode d'interface texte.
+    '''Ferme la fenêtre graphique et repasse en mode d'interface texte.
     Il est possible de rouvrir une autre interface graphique plus tard mais
-    le contenu de la prÃ©cÃ©dente est perdu.
+    le contenu de la précédente est perdu.
     '''
     global __gui
     global __uimode
@@ -150,8 +155,8 @@ def closeGUI():
     return
 
 def updateGUI():
-    '''Met Ã  jour la fenÃªtre GUI. UtilisÃ© Ã©ventuellement dans des boucles pour
-    forcer l'affichage immmÃ©diat.
+    '''Met à jour la fenêtre GUI. Utilisé éventuellement dans des boucles pour
+    forcer l'affichage immmédiat.
     '''
     global __gui
     global __uimode
@@ -160,8 +165,8 @@ def updateGUI():
     return
 
 def hideGUI():
-    '''Cache la fenÃªtre GUI avec withdraw() de tkinter. La fenÃªtre est cachÃ©e
-    mÃªme si le mode actuel est STD.
+    '''Cache la fenêtre GUI avec withdraw() de tkinter. La fenêtre est cachée
+    même si le mode actuel est STD.
     '''
     global __gui
     if GUIactive():
@@ -169,8 +174,8 @@ def hideGUI():
     return
 
 def showGUI():
-    '''Affiche la fenÃªtre GUI quand elle a Ã©tÃ© cachÃ©e avec hideGUI. La fenÃªtre est
-    affichÃ©e mÃªme si le mode actuel est STD.
+    '''Affiche la fenêtre GUI quand elle a été cachée avec hideGUI. La fenêtre est
+    affichée même si le mode actuel est STD.
     '''
     global __gui
     if GUIactive():
@@ -179,7 +184,7 @@ def showGUI():
     return
 
 def display(text=None):
-    '''Affiche du texte. Si le mode GUI est activÃ©, affiche dans la fenÃªtre
+    '''Affiche du texte. Si le mode GUI est activé, affiche dans la fenêtre
     graphique, sinon affiche dans la sortie standard 'stdout'.
     '''
     #saut de ligne en l'absence de texte
@@ -188,14 +193,14 @@ def display(text=None):
     #Affichage dans l'interface '__gui'
 ##    if __uimode == GUI:
     if GUI in __uimode:
-        #attention Ã  ce que l'objet __gui n'ait pas Ã©tÃ© modifiÃ©        
+        #attention à ce que l'objet __gui n'ait pas été modifié        
         assert GUIactive()
         __gui.activate()
         if text is None:
             __gui.displayText("\n")
         else:
             __gui.displayText(text+"\n")
-        #rend visible le texte si nÃ©cessaire de scroller
+        #rend visible le texte si nécessaire de scroller
         displayGUIshow()
     #Affichage sur la console standard
     if STD in __uimode:
@@ -214,8 +219,8 @@ def displaySTD(text=None):
     return
     
 def displayGUIshow():
-    '''Rend visible le point d'insertion du texte en faisant dÃ©filer la fenÃªtre
-    si nÃ©cessaire.
+    '''Rend visible le point d'insertion du texte en faisant défiler la fenêtre
+    si nécessaire.
     '''
     global __gui
     if GUIactive():
@@ -223,8 +228,8 @@ def displayGUIshow():
     return
     
 def displayGridValue(row, col, val):
-    '''Affiche une valeur sur la grille graphique, dÃ¨s lors que l'interface GUI
-    est active, mÃªme si le mode d'affichage est STD.
+    '''Affiche une valeur sur la grille graphique, dès lors que l'interface GUI
+    est active, même si le mode d'affichage est STD.
     '''
     global __gui
     global __uimode
@@ -235,8 +240,8 @@ def displayGridValue(row, col, val):
     return
     
 def displayGridPlace(grid, row, col):
-    '''Affiche une valeur de la grille sudo sur la grille GUI, dÃ¨s lors que
-    l'interface GUI est active, mÃªme si le mode d'affichage est STD
+    '''Affiche une valeur de la grille sudo sur la grille GUI, dès lors que
+    l'interface GUI est active, même si le mode d'affichage est STD
     '''
     assert isinstance(grid, sudogrid.SudoGrid)
     global __gui
@@ -249,8 +254,8 @@ def displayGridPlace(grid, row, col):
     return
 
 def displayGridAll(grid):
-    '''Affiche la totalitÃ© d'une grille GUI, dÃ¨s lors que l'interface GUI est
-    active, mÃªme si le mode d'affichage est STD'''
+    '''Affiche la totalité d'une grille GUI, dès lors que l'interface GUI est
+    active, même si le mode d'affichage est STD'''
     assert isinstance(grid, sudogrid.SudoGrid)
     global __uimode
     #if __uimode == GUI and isinstance(__gui._grid, gui.SudoGuiGrid):
@@ -280,26 +285,26 @@ def displayGridClear():
         __gui._grid.clear()
     
 def sudoFichReadLines(nomFich, pr=False):
-    '''Lecture d'un fichier texte de grille dans le rÃ©pertoire courant.
-    Le fichier doit contenir exactement 9 lignes de caractÃ¨res numÃ©riques.
-    Le texte doit Ãªtre prÃ©sentÃ© ligne par ligne en 9 x 9 chiffres. Les
-    cases vides doivent Ãªtre reprÃ©sentÃ©es par des zÃ©ros.
-    Retourne une liste de 9 chaÃ®nes de 9 caractÃ¨res numÃ©riques.
+    '''Lecture d'un fichier texte de grille dans le répertoire courant.
+    Le fichier doit contenir exactement 9 lignes de caractères numériques.
+    Le texte doit être présenté ligne par ligne en 9 x 9 chiffres. Les
+    cases vides doivent être représentées par des zéros.
+    Retourne une liste de 9 chaînes de 9 caractères numériques.
     '''
     return _sudoFichGrid_(nomFich, 1, pr)
 
 def sudoFichReadLists(nomFich, pr=False):
-    '''Lecture d'un fichier texte de grille dans le rÃ©pertoire courant.
-    Le fichier doit contenir exactement 9 lignes de caractÃ¨res numÃ©riques.
-    Le texte doit Ãªtre prÃ©sentÃ© ligne par ligne en 9 x 9 chiffres. Les
-    cases vides doivent Ãªtre reprÃ©sentÃ©es par des zÃ©ros.
-    Retourne une liste de 9 listes de 9 caractÃ¨res numÃ©riques.
+    '''Lecture d'un fichier texte de grille dans le répertoire courant.
+    Le fichier doit contenir exactement 9 lignes de caractères numériques.
+    Le texte doit être présenté ligne par ligne en 9 x 9 chiffres. Les
+    cases vides doivent être représentées par des zéros.
+    Retourne une liste de 9 listes de 9 caractères numériques.
     '''
     return _sudoFichGrid_(nomFich, 2, pr)
 
 def _sudoFichGrid_(nomFich, mode, pr=False):
-    '''Lit le fichier de caractÃ¨res et fait les vÃ©rifications.
-    Si mode = 1 (dÃ©faut) : retourne une liste de lignes
+    '''Lit le fichier de caractères et fait les vérifications.
+    Si mode = 1 (défaut) : retourne une liste de lignes
     Si mode = 2 : retourne une liste de listes
     '''
     if nomFich == None:
@@ -309,7 +314,7 @@ def _sudoFichGrid_(nomFich, mode, pr=False):
         raise Sudoku_Error ("Mode de lecture de fichier invalide")
     
     if pr:
-        display("Lecture du fichier ", nomFich, " :")
+        display("Lecture du fichier " + nomFich + " :")
     listLines = list()
     lineno = 0
     try:
@@ -320,18 +325,18 @@ def _sudoFichGrid_(nomFich, mode, pr=False):
             #erreur s'il y a plus de 9 lignes valides dans le fichier
             if lineno > 9:
                 raise Sudoku_Error \
-                      ("Le fichier contient trop de donnÃ©es. Lecture "\
-                       "interrompue. La grille a Ã©tÃ© remplie.")
-            #vÃ©rifier les caractÃ¨res et rectifier les vides
+                      ("Le fichier contient trop de données. Lecture "\
+                       "interrompue. La grille a été remplie.")
+            #vérifier les caractères et rectifier les vides
             line2 = ""
             for c in line:
                 #ignorer les espaces
                 if c == ' ':
                     continue
-                #traiter les Ã©quivalents Ã  l'absence de chiffre
+                #traiter les équivalents à l'absence de chiffre
                 if c in ('0', '.', '-', '_'):
                     line2 = line2 + '0'
-                #accepter uniquement de '1' Ã  '9'
+                #accepter uniquement de '1' à '9'
                 elif str(0) <= str(c) <= str(9):
                     line2 = line2 + str(c)
                 #fin de la ligne ignorer le '\n' final
@@ -339,8 +344,8 @@ def _sudoFichGrid_(nomFich, mode, pr=False):
                     break
                 else:
                     raise Sudoku_Error \
-                          ("caractÃ¨re invalides dans la ligne : " + line)
-            #si la ligne est complÃ¨tement blanche passer Ã  la suivante
+                          ("caractère invalides dans la ligne : " + line)
+            #si la ligne est complètement blanche passer à la suivante
             #sans la compter
             if len(line2) == 0:
                 continue
@@ -349,7 +354,7 @@ def _sudoFichGrid_(nomFich, mode, pr=False):
                 raise Sudoku_Error \
                       ("la ligne" + str(lineno) + " : " + line2 + \
                        " ne contient pas exactement 9 chiffres. ")
-            #ok, la ligne est valide - Ajout Ã  la liste
+            #ok, la ligne est valide - Ajout à la liste
             if mode == 1:                   #mode liste de lignes
                 listLines.append(line2)
             elif mode == 2:                 #mode liste de listes
@@ -394,13 +399,13 @@ def sudoNomTestFich():
     return nomFich
     
 def sudoNumTestFich(racine="grille_test"):
-    '''Demande sur la console un numÃ©ro de fichier et retourne
-    un nom de fichier formÃ© d'une racine fixe et du numÃ©ro donnÃ©.
-    GÃ¨re les erreurs d'input. Abandon avec Ctrl-C
+    '''Demande sur la console un numéro de fichier et retourne
+    un nom de fichier formé d'une racine fixe et du numéro donné.
+    Gère les erreurs d'input. Abandon avec Ctrl-C
     '''
     while True:
         try:
-            inpNum = input("Entrer le numÃ©ro du fichier de grille de test" \
+            inpNum = input("Entrer le numéro du fichier de grille de test" \
                             + " (Ctrl-C pour quitter) ?")
         except KeyboardInterrupt:
             return None
@@ -410,11 +415,11 @@ def sudoNumTestFich(racine="grille_test"):
             try:
                 num = int(inpNum)
             except ValueError:
-                display("Erreur. Entrer un numÃ©ro entier positif ou <vide> " \
-                        "pour le fichier par dÃ©faut.")
+                display("Erreur. Entrer un numéro entier positif ou <vide> " \
+                        "pour le fichier par défaut.")
                 continue
             if num < 0:
-                display("Erreur. Entrer un numÃ©ro positif")
+                display("Erreur. Entrer un numéro positif")
                 continue
             elif num == 0:
                 strNum = ""
@@ -425,8 +430,10 @@ def sudoNumTestFich(racine="grille_test"):
     fich = racine + strNum + ".sudo"
     return fich    
 
+def pause(continuer=False, texte=None):
+    return sudoPause(continuer=False, texte=None)
 def sudoPause(continuer=False, texte=None):
-    '''Interrompt l'exÃ©cution jusqu'Ã  une confirmation de l'utilisateur.
+    '''Interrompt l'exécution jusqu'à une confirmation de l'utilisateur.
     (utilise la console stdin)
     '''
     if texte is None:
@@ -438,12 +445,12 @@ def sudoPause(continuer=False, texte=None):
         if continuer:
             return(None)
         else:
-            raise Sudoku_Error("ExÃ©cution interrompue volontairement.")
+            raise Sudoku_Error("Exécution interrompue volontairement.")
     except KeyboardInterrupt:
         if continuer:
             return(False)
         else:
-            raise Sudoku_Error("ExÃ©cution interrompue volontairement.")
+            raise Sudoku_Error("Exécution interrompue volontairement.")
 
 
 
@@ -455,7 +462,7 @@ def testIO():
     #test de sudoPause
     print("Test de la fonction sudoio.sudoPause()")
     for i in range(10):
-        r = sudoPause()
+        r = pause()
         if r==True:
             print("ok pour continuer")
             continue
@@ -471,7 +478,7 @@ def testIO():
 
 #test noms de fichiers
 def testFich():
-    '''test lecture fichier avec input simple sans contrÃ´le
+    '''test lecture fichier avec input simple sans contrôle
     '''
     while True:
         try:
@@ -486,7 +493,7 @@ def testFich():
 
 #test complet nom de fichier + lecture
 def testFich2():
-    '''test complet nom de fichier contrÃ´lÃ© + lecture du fichier
+    '''test complet nom de fichier contrôlé + lecture du fichier
     '''
     while True:
         fich = sudoNumTestFich()
@@ -501,7 +508,7 @@ def testFich2():
         finally:
             pass
         print(l)
-        if not sudoPause(): print("Fin"); break
+        if not pause(): print("Fin"); break
 #end def testFich2()
     
 if __name__ == "__main__":

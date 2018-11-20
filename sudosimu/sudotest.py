@@ -2,7 +2,7 @@
 
 '''Programme SudoSimu
 Simulation de résolution humaine du jeu de Sudoku
-Module sudotest : support d'I/O pour le test du code.
+Module sudotest : support d'I/O pour le suivi d'exécution et le test du code.
 
 Principales méthodes :
     test(): ajoute une clé de gestion de test
@@ -19,7 +19,8 @@ fournie en argument et le niveau demandé
     raiseArgs() : déclenche une exception suivant le niveau de la clé
 '''
 '''
-Dernière mise à jour : 11/10/2017
+Dernière mise à jour : 14/11/2018
+14/11/2018 - Correction dans pause() paramètres correspondant à sudoui.pause()
 14/11/2017 - Ajout de la méthode 'beQuiet' pour supprier tous les outputs.
     Permet de faire des environnements silencieux. Mais les autres
     fonctionnalités sont concervées.
@@ -191,15 +192,15 @@ class SudoTest():
             grid.show(style)
         return
         
-    def pause(self, key, level, pausearg=None):
+    def pause(self, key, level, pauseResume=False,pauseText=None):
         '''pause conditionnelle suivant le niveau de test.
-        Voir sudoio.sudoPause() pour les détails d'exécution de la pause.
+        Voir sudoui.pause() pour les détails d'exécution de la pause.
         Cette méthode n'est pas affectée par le mode 'quiet'.
         '''
         keylev = self._tstdict.get(str(key), None)  #None si clé absente
         if keylev != None and keylev >= level:
             #faire la pause 
-            r = ui.sudoPause(pausearg)
+            r = ui.pause(pauseResume, pauseText)
             #si le mode graphique est actif, mettre à jour la fenêtre
             if self._modeUI in (MODE_GUI, MODE_BOTH):
                 ui.updateGUI()
