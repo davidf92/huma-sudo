@@ -1,33 +1,16 @@
-Master-171231
-Merge du Fork-171211-ai-opport-arbit 
-Master précédent : Master-171211
+Fork-181114-app-simu-game-player
+Basé sur : Master-171231
+Dernière modification : 17/12/2017
+Etat : en cours
 
-Mises-à-jour
-----------------
-1) Evolution de l'AI, première étape d'une structure de réseau de neurones :
-- 3 couches, critères, règles et tactique de décision, 
-   -- classes SudoAIcritSet, SudoAIcrit, SudoAIruleSet, SudoAIrule dans sudoairules.py
-   -- classe SudoAItactics dans sudoaitact.py
-- Réorganisation du code :
-   -- sudoaiconst.py - regroupe toutes les constantes du code AI
-   -- sudoairules.py - couches de neurones critères et règles
-   -- sudoaitact.py - couche de décision et tactique de jeu
-   -- sudoainode.py - modèle de noeud neuronal (pas encore utilisé)
-- Modifications dans sudothinkai.py pour bien intégrer cette structure de décision
-2) Autres modifications mineures dans quelques scripts en relation avec le haut niveau = joueur et partie 
+Résumé : Restructuration du top niveau avec une classe SudoSimu et adaptation 
+conceptuelle de Player et Game pour une meilleure intégration applicative.
 
-Fichiers modifiés
----------------------
-sudoai.py
-sudoaiconst.py
-sudoainode.py
-sudoairules.py
-sudoaitact.py
-sudoenv.py
-sudogridview.py
-sudomemory.py
-sudoplayer.py
-sudotest.py
-sudotestall.py
-sudothinkai.py
-sudothinking.py
+Description :
+-------------
+1/ Création d'une classe SudoSimu qui est le top niveau de contrôle d'une simulation.
+Correspond à peu près à l'ancienne version de SudoGame.
+2/ Adaptation de SudoGame qui intègre le joueur et la grille pour lancer la simulation
+et la superviser, et adaptation de SudoPlayer
+3/ Reprise complète du niveau SudoApp et de l'interface avec un programme externe
+
