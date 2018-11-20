@@ -1,70 +1,76 @@
 # SudoSimu
 **Simulation de joueur humain de sudoku**
 
-Projet développé en Python 3, entièrement en paradigme objet. Il simule un joueur humain qui tente de résoudre une grille de Sudoku. Le programme n'utilise pas la force brute ni aucune optimisation algorithmique et ne cherche pas la rapidité. Au contraire il tente de reproduire fidèlement la cognition avec ses capacités et ses limites : exploration visuelle de la grille, réflexion, mémoire, intuition, expérience du jeu.
 
-L'objectif du projet est strictement de faire une simulation réaliste, et en particulier d'éviter les approches algorithmiques classiques et les optimisations même les plus basiques qui n'ont pas d'équivalent cognitif. Un bon exemple est de bannir la récursion. La rapidité pure n'est pas un objectif, pour autant le souhait humainement réaliste de performance n'est pas négligé : habileté, bonnes intuitions, évitement de recherches inutiles et d'impasses.
-Si le niveau du joueur est bien simulé, celui-ci résoudra plus ou moins facilement certaines grilles et échouera à d'autres. Le programme prend en compte pour cela des données de "profil cognitif". Ce profil comporte des caractéristiques d'expérience du jeu et de capacité d'apprentissage. Des résolutions successives de la même grille devraient donc être de plus en plus performantes.
+Projet dÃ©veloppÃ© en Python 3, entiÃ¨rement en paradigme objet. Il simule un joueur humain qui tente de rÃ©soudre une grille de Sudoku. Le programme n'utilise pas la force brute ni aucune optimisation algorithmique et ne cherche pas la rapiditÃ©. Au contraire il tente de reproduire fidÃ¨lement la cognition avec ses capacitÃ©s et ses limites : exploration visuelle de la grille, rÃ©flexion, mÃ©moire, intuition, expÃ©rience du jeu.
 
-Le programe ne comporte aucun algorithme de résolution certaine, donc il ne peut pas "aider". Si la résolution simulée échoue, le programme ne comporte pas de moyen de connaître la grille résolue. A l'inverse il ne permet pas de faire des erreurs et il n'y a donc pas besoin de "vérification". Les raisonnements sont limités mais ne sont pas faux et les chiffres trouvés sont correctement placés. Le joueur peut donc échouer mais il ne peut pas "se tromper".
+L'objectif du projet est strictement de faire une simulation rÃ©aliste, et en particulier d'Ã©viter les approches algorithmiques classiques et les optimisations mÃªme les plus basiques qui n'ont pas d'Ã©quivalent cognitif. Un bon exemple est de bannir la rÃ©cursion. La rapiditÃ© pure n'est pas un objectif, pour autant le souhait humainement rÃ©aliste de performance n'est pas nÃ©gligÃ© : habiletÃ©, bonnes intuitions, Ã©vitement de recherches inutiles et d'impasses.
+Si le niveau du joueur est bien simulÃ©, celui-ci rÃ©soudra plus ou moins facilement certaines grilles et Ã©chouera Ã  d'autres. Le programme prend en compte pour cela des donnÃ©es de "profil cognitif". Ce profil comporte des caractÃ©ristiques d'expÃ©rience du jeu et de capacitÃ© d'apprentissage. Des rÃ©solutions successives de la mÃªme grille devraient donc Ãªtre de plus en plus performantes.
 
-Une interface complète permet de suivre le raisonnement, les prises de décision, les informations recherchées et observées dans la grille, les techniques choisies ainsi que leur déroulement. Elle permet également de suivre les limites et défaillance de mémoire qui obligent parfois à devoir rechercher des informations précédemment connues ou à devoir reprendre un raisonnement à son début. A l'inverse la résolution peut être exécutée sans aucun affichage jusqu'à son résultat : résolution ou échec, ainsi que log et statistiques. Le détail et les domaines d'informations sorties / affichées sont largement paramétrables, allant jusqu'à la capacité de test du code au niveau élémentaire. 
-Il est possible d'exécuter des résolutions simultanées en batch, par exemple dans le but d'en comparer les résultats, un peu à l'exemple des parties simultanées d'échecs et autres jeux de réflexion.
+Le programe ne comporte aucun algorithme de rÃ©solution certaine, donc il ne peut pas "aider". Si la rÃ©solution simulÃ©e Ã©choue, le programme ne comporte pas de moyen de connaÃ®tre la grille rÃ©solue. A l'inverse il ne permet pas de faire des erreurs et il n'y a donc pas besoin de "vÃ©rification". Les raisonnements sont limitÃ©s mais ne sont pas faux et les chiffres trouvÃ©s sont correctement placÃ©s. Le joueur peut donc Ã©chouer mais il ne peut pas "se tromper".
 
-### Implémentation du réalisme :
+Une interface complÃ¨te permet de suivre le raisonnement, les prises de dÃ©cision, les informations recherchÃ©es et observÃ©es dans la grille, les techniques choisies ainsi que leur dÃ©roulement. Elle permet Ã©galement de suivre les limites et dÃ©faillance de mÃ©moire qui obligent parfois Ã  devoir rechercher des informations prÃ©cÃ©demment connues ou Ã  devoir reprendre un raisonnement Ã  son dÃ©but. A l'inverse la rÃ©solution peut Ãªtre exÃ©cutÃ©e sans aucun affichage jusqu'Ã  son rÃ©sultat : rÃ©solution ou Ã©chec, ainsi que log et statistiques. Le dÃ©tail et les domaines d'informations sorties / affichÃ©es sont largement paramÃ©trables, allant jusqu'Ã  la capacitÃ© de test du code au niveau Ã©lÃ©mentaire. 
+Il est possible d'exÃ©cuter des rÃ©solutions simultanÃ©es en batch, par exemple dans le but d'en comparer les rÃ©sultats, un peu Ã  l'exemple des parties simultanÃ©es d'Ã©checs et autres jeux de rÃ©flexion.
 
-**Classe SudoThinking** -- la réflexion qui permet d'enchaîner logiquement des actions et de dérouler des techniques systématiques. Les limites cognitives plafonnent la complexité de cette réflexion et la capacité de combiner des informations et des actions.
 
-**Classe SudoMemory** -- La mémoire qui permet de savoir ce que l'on est en train de faire, ce que l'on voit, ce que l'on pense. C'est donc ce que l'on appelle une mémoire de travail. Elle est limitée de manière réaliste par la quantité d'informations et l'oubli plus ou moins rapide.
-Remarque : la résolution se fait sans notes, entièrement de mémoire.
+### ImplÃ©mentation du rÃ©alisme :
 
-**Classe SudoGridView** -- la recherche visuelle dans la grille. Le simulateur ne dispose d'aucun moyen de connaissance et mémorisation complète de la grille. Celle-ci ne peut être connue que de manière parcellaire, ce qui nécessite de l'explorer du regard à la recherche d'informations, des chiffres présents, des cases vides et de leurs combinaisons. La mémoire permet au joueur de se remémorer plus ou moins longtemps ce qu'il a vu de la grille.
+- **Classe SudoThinking** -- la rÃ©flexion qui permet d'enchaÃ®ner logiquement des actions et de dÃ©rouler des techniques systÃ©matiques. Les limites cognitives plafonnent la complexitÃ© de cette rÃ©flexion et la capacitÃ© de combiner des informations et des actions.
 
-**Classes SudoTechxxxxxx** -- des techniques de résolution réalistes, qui consistent en enchaînements logiques et systématiques dans tout ou partie de la grille à la recherche d'informations (donc des observations de la grille), qui aboutissent éventuellement à la découverte d'un placement possible.
+- **Classe SudoMemory** -- La mÃ©moire qui permet de savoir ce que l'on est en train de faire, ce que l'on voit, ce que l'on pense. C'est donc ce que l'on appelle une mÃ©moire de travail. Elle est limitÃ©e de maniÃ¨re rÃ©aliste par la quantitÃ© d'informations et l'oubli plus ou moins rapide.
+Remarque : la rÃ©solution se fait sans notes, entiÃ¨rement de mÃ©moire.
 
-**Classes SudoThinkAI et SudoAIxxxx** -- la réflexion de plus haut niveau (sorte d'intelligence artificielle), la capacités de décision, l'évaluation d'opportunités, la prise en compte d'intuitions, la notion de choix "prudent" ou au contraire "optimiste" voire "agressif". D'une part le programme reproduit des techniques de résolution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carré) et des opportunités apparues après un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en choisir une autre.
+- **Classe SudoGridView** -- la recherche visuelle dans la grille. Le simulateur ne dispose d'aucun moyen de connaissance et mÃ©morisation complÃ¨te de la grille. Celle-ci ne peut Ãªtre connue que de maniÃ¨re parcellaire, ce qui nÃ©cessite de l'explorer du regard Ã  la recherche d'informations, des chiffres prÃ©sents, des cases vides et de leurs combinaisons. La mÃ©moire permet au joueur de se remÃ©morer plus ou moins longtemps ce qu'il a vu de la grille.
 
-**Classe SudoLearning** -- la capacité d'apprentissage, tant au fil de la résolution d'une grille que d'une grille à l'autre. Par exemple les enchaînements qui "marchent" plus ou moins bien selon que la grille est plus ou moins remplie, ou au contraire ce qui est de la perte de temps.
+- **Classes SudoTechxxxxxx** -- des techniques de rÃ©solution rÃ©alistes, qui consistent en enchaÃ®nements logiques et systÃ©matiques dans tout ou partie de la grille Ã  la recherche d'informations (donc des observations de la grille), qui aboutissent Ã©ventuellement Ã  la dÃ©couverte d'un placement possible.
 
-**Classe SudoPlayerProfile** -- le paramétrage des capacités du joueur dans tous les aspects de réflexion, mémoire, vision de la grille, intuition et habileté, apprentissage.
+- **Classes SudoThinkAI et SudoAIxxxx** -- la rÃ©flexion de plus haut niveau (sorte d'intelligence artificielle), la capacitÃ©s de dÃ©cision, l'Ã©valuation d'opportunitÃ©s, la prise en compte d'intuitions, la notion de choix "prudent" ou au contraire "optimiste" voire "agressif". D'une part le programme reproduit des techniques de rÃ©solution simples (autrement dit des raisonnements logiques) et d'autre part il tente d'appliquer la bonne technique au bon moment. Par exemple il cherche des coups triviaux (ex: s'il reste une seule case libre dans un carrÃ©) et des opportunitÃ©s apparues aprÃ¨s un placement. S'il applique une technique qui ne donne rien, il va l'abandonner et en choisir une autre.
 
-### Implémentations de bas niveau
+- **Classe SudoLearning** -- la capacitÃ© d'apprentissage, tant au fil de la rÃ©solution d'une grille que d'une grille Ã  l'autre. Par exemple les enchaÃ®nements qui "marchent" plus ou moins bien selon que la grille est plus ou moins remplie, ou au contraire ce qui est de la perte de temps.
 
-**Classe SudoGrid** -- Modélisation de la grille. C'est la seule classe liée à la simulation qui est exempte du besoin de réalisme. 
-Une seule autre classe accède à SudoGrid, c'est SudoGridView qui simule les "observations" de la grille. Aucune autre classe de simulation, notamment SudoThinking et SudoMemory, n'y a un accès direct, et le code source de ces classes n'importe même pas le module dans lequel est codée SudoGrid.
+- **Classe SudoPlayerProfile** -- le paramÃ©trage des capacitÃ©s du joueur dans tous les aspects de rÃ©flexion, mÃ©moire, vision de la grille, intuition et habiletÃ©, apprentissage.
 
-**Classe SudoRules** -- Définit les règles du Sudoku qui sont la liste de 1 à 9 et les unicités de chiffres par groupement. SudoRules est utilisée dans SudoGrid et dans le code qui effectue les placements pour en vérifier la régularité. Définit aussi la hiérarche des exceptions utilisées dans le programme, principalement pour prendre en compte les défaillance de mémoire et de réflexion.
 
-### Implémentations des fonctions techniques :
+### ImplÃ©mentations de bas niveau
 
-**Classe SudoEnv** -- L'environnemnet de la simulation : regroupe toutes les interfaces, les interactions, les affichages.
+- **Classe SudoGrid** -- ModÃ©lisation de la grille. C'est la seule classe liÃ©e Ã  la simulation qui est exempte du besoin de rÃ©alisme. 
+Une seule autre classe accÃ¨de Ã  SudoGrid, c'est SudoGridView qui simule les "observations" de la grille. Aucune autre classe de simulation, notamment SudoThinking et SudoMemory, n'y a un accÃ¨s direct, et le code source de ces classes n'importe mÃªme pas le module dans lequel est codÃ©e SudoGrid.
 
-**Classe SudoUI et SudoGUI** -- Les interfaces utilisateurs, dont GUI basé sur Tkinter.
+- **Classe SudoRules** -- DÃ©finit les rÃ¨gles du Sudoku qui sont la liste de 1 Ã  9 et les unicitÃ©s de chiffres par groupement. SudoRules est utilisÃ©e dans SudoGrid et dans le code qui effectue les placements pour en vÃ©rifier la rÃ©gularitÃ©. DÃ©finit aussi la hiÃ©rarche des exceptions utilisÃ©es dans le programme, principalement pour prendre en compte les dÃ©faillance de mÃ©moire et de rÃ©flexion.
 
-**Classe SudoTest** -- Les fonctions de test et d'affichage conditionnel présentes dans tout le code source du programme.
+
+### ImplÃ©mentations des fonctions techniques :
+
+- **Classe SudoEnv** -- L'environnemnet de la simulation : regroupe toutes les interfaces, les interactions, les affichages.
+
+- **Classe SudoUI et SudoGUI** -- Les interfaces utilisateurs, dont GUI basÃ© sur Tkinter.
+
+- **Classe SudoTest** -- Les fonctions de test et d'affichage conditionnel prÃ©sentes dans tout le code source du programme.
+
 
 ### Interfaces :
 
-Une interface graphique repose sur Tkinter et Tix. Elle est entièrement compatible avec le paradigme événementiel. Elle permet une exécution du simulateur seul ainsi que l'intégration sous forme de package dans un programme extérieur et l'intégration dans l'interface GUI événementielle dudit programme.
-La modularité de l'interface utilisateur permet aisément de modifier ou d'ajouter d'autres modes d'E/S (ex: console) ou d'autres librairies GUI.
-Une interface système permet de lire et écrire des fichiers formatés qui définissent une grille, ainsi que d'enregister en fichier des logs d'exécution, des statistiques de performance et des progressions. Il y a plusieurs formats de modélisations de grille qui permettent facilement d'interfacer avec des générateurs de grilles aléatoires.
-Il n'y a aucune dépendance du système sous-jacent ni de sa distribution et seules les librairies Python standards sont utilisées.
+Une interface graphique repose sur Tkinter et Tix. Elle est entiÃ¨rement compatible avec le paradigme Ã©vÃ©nementiel. Elle permet une exÃ©cution du simulateur seul ainsi que l'intÃ©gration sous forme de package dans un programme extÃ©rieur et l'intÃ©gration dans l'interface GUI Ã©vÃ©nementielle dudit programme.
+La modularitÃ© de l'interface utilisateur permet aisÃ©ment de modifier ou d'ajouter d'autres modes d'E/S (ex: console) ou d'autres librairies GUI.
+Une interface systÃ¨me permet de lire et Ã©crire des fichiers formatÃ©s qui dÃ©finissent une grille, ainsi que d'enregister en fichier des logs d'exÃ©cution, des statistiques de performance et des progressions. Il y a plusieurs formats de modÃ©lisations de grille qui permettent facilement d'interfacer avec des gÃ©nÃ©rateurs de grilles alÃ©atoires.
+Il n'y a aucune dÃ©pendance du systÃ¨me sous-jacent ni de sa distribution et seules les librairies Python standards sont utilisÃ©es.
 
 
-### Note sur le développement et sur le code : 
+### Note sur le dÃ©veloppement et sur le code : 
 
-Le code privilégie une utilisation propre et complète de Python, dans un style lisible pour ne pas dire scolaire. C'est du Python 3, la compatibilité avec Python 2.7 n'est pas assurée. Les commentaires et sauts de lignes sont abondants au détriment volontaire de la compacité. Toutes les classes et fonctions sont documentées de manière standard.
-Le code est très structuré, les noms de variables et d'objets sont composés et explicites. Le découpage et la modularité sont fins avec des fonctions nombreuses et courtes pour la clareté et la lisibilité. Les modules sont nombreux et la plupart codent une seule classe. Le paradigme objet est strictement respecté, il n'y a pas de variables globales à part des constantes, il n'y a quasiment pas de fonctions à l'extérieur des classes. A l'inverse, le code utilise autant que possible tous les types de collections, d'itérations, des fonctions lambda. Les classes utilisent des méthodes courtes, simples et nombreuses ainsi que des propriétés, seters et geters. Il y a de l'héritage de classes. Le code utilise systématiquements les exceptions et le contrôle de leur propagation partout où cela est pertinent.Le programme est regroupé dans un package et des sous-packages et utilise abondamment les imports. 
+Le code privilÃ©gie une utilisation propre et complÃ¨te de Python, dans un style lisible pour ne pas dire scolaire. C'est du Python 3, la compatibilitÃ© avec Python 2.7 n'est pas assurÃ©e. Les commentaires et sauts de lignes sont abondants au dÃ©triment volontaire de la compacitÃ©. Toutes les classes et fonctions sont documentÃ©es de maniÃ¨re standard.
+Le code est trÃ¨s structurÃ©, les noms de variables et d'objets sont composÃ©s et explicites. Le dÃ©coupage et la modularitÃ© sont fins avec des fonctions nombreuses et courtes pour la claretÃ© et la lisibilitÃ©. Les modules sont nombreux et la plupart codent une seule classe. Le paradigme objet est strictement respectÃ©, il n'y a pas de variables globales Ã  part des constantes, il n'y a quasiment pas de fonctions Ã  l'extÃ©rieur des classes. A l'inverse, le code utilise autant que possible tous les types de collections, d'itÃ©rations, des fonctions lambda. Les classes utilisent des mÃ©thodes courtes, simples et nombreuses ainsi que des propriÃ©tÃ©s, seters et geters. Il y a de l'hÃ©ritage de classes. Le code utilise systÃ©matiquements les exceptions et le contrÃ´le de leur propagation partout oÃ¹ cela est pertinent.Le programme est regroupÃ© dans un package et des sous-packages et utilise abondamment les imports. 
 
-Le développement a été conduit en totalité dans une démarche "test-driven" afin d'en optimiser la qualité. C'est d'ailleurs un effort qui a été largement bénéficiaire grâce à un besoin de débuggage très limité. Tout le code, chaque fonction et méthode, contient du code de suivi d'exécution à un niveau très fin et paramétré, y compris des pauses d'exécution et des tests conditionnels. 
-Tout les modules sont exécutables directement dans un interpréteur (if __name__ == "__main__" ....) et comportent à la fin du code de test qui a été utilisé pendant le développement et n'a volontairement pas été supprimé. Bien sûr cet abondance de code "inutile" nuit à la rapidité d'exécution, mais encore une fois celle-ci n'est pas un objectif et ce n'est pas perceptible dans la démarche de simulation interactive qui est l'objectif du projet.
+Le dÃ©veloppement a Ã©tÃ© conduit en totalitÃ© dans une dÃ©marche "test-driven" afin d'en optimiser la qualitÃ©. C'est d'ailleurs un effort qui a Ã©tÃ© largement bÃ©nÃ©ficiaire grÃ¢ce Ã  un besoin de dÃ©buggage trÃ¨s limitÃ©. Tout le code, chaque fonction et mÃ©thode, contient du code de suivi d'exÃ©cution Ã  un niveau trÃ¨s fin et paramÃ©trÃ©, y compris des pauses d'exÃ©cution et des tests conditionnels. 
+Tout les modules sont exÃ©cutables directement dans un interprÃ©teur (if __name__ == "__main__" ....) et comportent Ã  la fin du code de test qui a Ã©tÃ© utilisÃ© pendant le dÃ©veloppement et n'a volontairement pas Ã©tÃ© supprimÃ©. Bien sÃ»r cet abondance de code "inutile" nuit Ã  la rapiditÃ© d'exÃ©cution, mais encore une fois celle-ci n'est pas un objectif et ce n'est pas perceptible dans la dÃ©marche de simulation interactive qui est l'objectif du projet.
 
-Pour ce qui est de l'import du package dans un programme "extérieur", ce dernier peut facilement paramétrer la propagation des exceptions et l'exécution conditionnelle du code de test intégré.
+Pour ce qui est de l'import du package dans un programme "extÃ©rieur", ce dernier peut facilement paramÃ©trer la propagation des exceptions et l'exÃ©cution conditionnelle du code de test intÃ©grÃ©.
 
-Suite du projet
 
-C'est un projet évolutif car il est toujours possible d'améliorer le réalisme de la simulation, d'ajouter de nouvelles techniques et d'en intégrer l'utilisation via l'AI, d'enrichir la capacité de décision en prenant en compte plus de combinaisons de situations, d'affiner les profils de capacités et limitations de mémoire et de réflexion. Un domaine particulier à développer est la modélisation de la mémoire : car la mémoire humaine est associative d'une manière quasi-infinie. Cela est très difficile à simuler. De même pour l'intelligence artificielle en développant des réseaux de neurones.
+### Suite du projet
 
-Pour améliorer le "niveau" de résolution en conservant le réalisme, il faudra incontournablement ajouter des techniques plus puissantes. En revanche celles-ci sont en général plus longues à exécuter dans la réalité, donc vouloir les utiliser systématiquement (pour leur puissance) plutôt que des techniques plus simples irait à l'encontre du réalisme de recherche de simplicité et de rapidité. Ajouter des techniques va donc de pair avec leur prise en compte précise dans l'AI et le système de décision.
+C'est un projet Ã©volutif car il est toujours possible d'amÃ©liorer le rÃ©alisme de la simulation, d'ajouter de nouvelles techniques et d'en intÃ©grer l'utilisation via l'AI, d'enrichir la capacitÃ© de dÃ©cision en prenant en compte plus de combinaisons de situations, d'affiner les profils de capacitÃ©s et limitations de mÃ©moire et de rÃ©flexion. Un domaine particulier Ã  dÃ©velopper est la modÃ©lisation de la mÃ©moire : car la mÃ©moire humaine est associative d'une maniÃ¨re quasi-infinie. Cela est trÃ¨s difficile Ã  simuler. De mÃªme pour l'intelligence artificielle en dÃ©veloppant des rÃ©seaux de neurones.
 
-Il y a donc dans l'ensemble un gros potentiel pour prolonger ce projet et améliorer le niveau de jeu tout en améliorant le réalisme de la simulation.
+Pour amÃ©liorer le "niveau" de rÃ©solution en conservant le rÃ©alisme, il faudra incontournablement ajouter des techniques plus puissantes. En revanche celles-ci sont en gÃ©nÃ©ral plus longues Ã  exÃ©cuter dans la rÃ©alitÃ©, donc vouloir les utiliser systÃ©matiquement (pour leur puissance) plutÃ´t que des techniques plus simples irait Ã  l'encontre du rÃ©alisme de recherche de simplicitÃ© et de rapiditÃ©. Ajouter des techniques va donc de pair avec leur prise en compte prÃ©cise dans l'AI et le systÃ¨me de dÃ©cision.
+
+Il y a donc dans l'ensemble un gros potentiel pour prolonger ce projet et amÃ©liorer le niveau de jeu tout en amÃ©liorant le rÃ©alisme de la simulation.
