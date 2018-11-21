@@ -21,6 +21,7 @@ Historique des modifications :
 Dernière mise à jour : 15/11/2017:
 '''
 
+
 if __name__ in ("__main__", "sudogame"):
     import sudobaseclass as base
     import sudoenv

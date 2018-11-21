@@ -120,7 +120,7 @@ class SudoEnv():
     test = property(getTest, setTest, doc=\
         '''Permet de faire dans le code :
         TEST = env.TEST
-        TEST.display("<label>", <level>, "<Test output>)
+        TEST.display(<label>, <level>, <Test output>)
         ''')
     TEST = test
 
@@ -141,9 +141,9 @@ class SudoEnv():
     def ui(self):
         return self._ui
 
-    def display(self, text):
-        '''Affiche un texte sur l'interface UI. Un texte vide fait afficher un
-        saut de ligne '\n'.
+    def display(self, text=None):
+        '''Affiche un texte sur l'interface UI. Identique à ui.display().
+        Un texte vide fait afficher un saut de ligne '\n'.
         '''
         #important pour la sécurité (faille par dépassement de buffer)
         assert isinstance(text, str) 

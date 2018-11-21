@@ -8,18 +8,22 @@ incluant :
 ATTENTION : A utiliser à l'intérieur du package
 '''
 
-#import sudosimu
-import sudoui as ui
+import sudoenv
+#import sudoui as ui
 import sudogrid as gr
 import sudoplayer as pl
 from sudotest import *
-import sudotestall
+#import sudotestall
 
+env = sudoenv.SudoEnv()
+TEST = env.test
+ui = env.ui
 
 def testMakeUI():
     '''Prépare l'interface utilisateur console et graphique.'''
     ui.UImode(ui.GUI)
     TEST.displayUImode(MODE_BOTH, 1)
+    return
 
 def testReadGridFileNum():
     ui.display("Choisir un fichier de test")
@@ -44,6 +48,7 @@ def testNewGrid():
 
 def testlev(lev):
     TEST.levelAll(lev)
+    return
 
 def testShowGrid(grid):
     ui.displayGridClear()
@@ -68,11 +73,11 @@ if __name__ == "__main__":
         grid = testNewGrid()
         testShowGrid(grid)
         return
-    david = None
+    player = None
     def go():
         global david
         resetGrid()
-        david.solve(grid, params)
+        player.solve(grid, params)
         return
     def resetGrid():
         global grid
@@ -85,8 +90,8 @@ if __name__ == "__main__":
     ui.display("----------------------------\n")
     newGrid()
     TEST.display("main", 1, "\nCréation et initialisation du joueur")
-    TEST.display("main", 1, "Création du joueur : 'david'")
-    david = pl.SudoPlayer("David")
+    TEST.display("main", 1, "Création du joueur : 'player'")
+    player = pl.SudoPlayer("aPlayer", env=env)
     #Niveaux de commentaires pour la partie
     TEST.level("thinkai", 1)
     #    TEST.level("player", 3)
@@ -97,7 +102,7 @@ if __name__ == "__main__":
     params = None
     #Jeu
     TEST.display("main", 1, "Prêt à jouer.\n")
-    print("\n...>>> david.solve(grid) \nou >>> go()")
+    print("\n...>>> player.solve(grid) \nou >>> go()")
 
     #ui.sudoPause()
     #go()
