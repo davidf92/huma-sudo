@@ -1,10 +1,27 @@
-'''Initialise les niveaux de test pour tous les modules du programme'''
+'''Module sudotestall du programme sudosimu : simulation de jeu de Sudoku.
+Initialise le mode de test pour l'exécution des autres modules. Cette
+initialisation permet de remplir le dictionnaire des labels de test et de
+vérifier ensuite que les niveaux correspondent aux valeurs attendues.
+'''
 
-if "sudosimu." in __name__:
-    from sudosimu.sudotest import *
+if __name__ in ("__main__", "sudotestall"):
+    import sudoenv
+elif __name__ == "sudosimu.sudotestall":
+    from sudosimu import sudoenv
 else:
-    from sudotest import *
-    
+    raise Exception("Impossible de faire les imports dana le module sudotestall")
+
+'''l'utilisation normale consiste à importer ce module dans un autre module
+à la suite de l'initialisation du code de test, pour utiliser l'environnement
+déjà créé et donc TEST déjà défini.
+Dans le cas contraire :
+'''
+try:
+    _dummy_ = TEST
+except:
+    env = sudoenv.SudoEnv()
+    TEST = env.test
+
 #utilisé pour le contrôle d'exécution
 TEST.test("__nofail__")
 TEST.test("__noexcept__")
@@ -23,9 +40,10 @@ TEST.test("ui")
 TEST.test("gui")
 #simulation de résolution
 TEST.test("grid")
+TEST.test("simu")
 TEST.test("player")
 TEST.test("game")
-TEST.test("observer")
+TEST.test("observer")       #OBSOLETE
 TEST.test("gridview")
 TEST.test("memory")
 TEST.test("memprofile")

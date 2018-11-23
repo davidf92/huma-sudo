@@ -17,9 +17,10 @@ Une sous-classe particulière, SudoEnvQuiet, permet de supprimer totalement
 les outputs, ce qui est utile pour des utilisations en batch (résolutions
 massives, apprentissage, etc.)
 
-Dernière mise à jour : 15/11/2017
-
+Dernière mise à jour : 23/11/2018
 Historique des modifications :
+23/11/2018 - Reprise pour bien fournir un système d'environnement généralisé
+au programme, qui englobe les UI et les moyens de test (SudoTest)
 15/11/2017 - Evolution pour utiliser le système d'environnement avec SudoEnv
     ainsi que tout le support de TEST dans sudoenv.
 '''
@@ -73,60 +74,51 @@ TEST_SELECT = sudotest.MODE_SELECT
 TEST_BOTH = sudotest.MODE_BOTH
 
 class SudoEnv():
-    '''Cette classe représente le concept d'environnement d'exécution du
-    simulateur de Sudoku, incluant notamment l'interface utilisateur et des
-    éléments d'interface système comme les fichiers.
+    '''Cette classe représente l'environnement d'exécution du
+    simulateur. Elle fournit aux autres modules une interface UI et GUI, ainsi
+    qu'un environnement de test et des fonctions d'affichage dans une console.
+    L'environnement peut éventuellement avoir un nom.
     '''
-    def __init__(self, envname=None, testclass=None):
-        '''Initialisation d'un environnement d'exécution. Celui contient au
-        minimum les objets UI qui permettent des outputs de déroulement de la
-        résolution. Cet environnement peut utiliser optionnellement une autre
-        classe que 'SudoTest' pour le test du code.
+    def __init__(self, envname=None):
+        '''Initialisation un environnement d'exécution et des interfaces que
+        l'environnement fournit. 
         '''
-##########################
-##        print("TEST SudoEnv(__init__(), envname={0}, testclass={0}"\
-##              .format(str(envname), str(testclass)))
-##        print("type(testclass) = " + str(type(testclass)))
-##        print(testclass)
-##        print(sudotest.SudoTest)
-##        print(isinstance(testclass, sudotest.SudoTest))
-##        print()
-###########################
-        assert envname is None or isinstance(envname, str)
+        #vérificatioin des paramètres
+        try:
+            assert envname is None or isinstance(envname, str)
+        except:
+            raise Exception("Erreur d'initialisation de l'environnement.")
+        if envname is None or envname == "":
+            envname = "Environnement"
         self._name = envname
-#Paramètre 'testclass': si ce n'est pas SudoTest, c'est à son développeur de
-#s'assurer que cette classe supporte bien toutes les méthodes utilisées.
-        if testclass is None:
-            self._test = sudotest.SudoTest()
-        else:
-            self._test = testclass()
-#### A MODIFIER IMPERATIVEMENT APRES EVOLUTION DU MODULE SUDOUI
+        self._test = sudotest.SudoTest()
+
+#### A MODIFIER IMPERATIVEMENT APRES EVOLUTION DU MODULE SUDOUI qui devrait
+#### créer une classe SudoUI et donc instancier self._ui = SudoUI()
         #interface UI
         self._ui = ui   #c'est le module - ni une classe ni une instance.
+
         return
         
     def getTest(self):
-        ''' Retourne l'objet de test (instance SudoTest) qui va permettre
-        au code appelant d'utiliser directement cette interface.
-        '''
+        ''' Retourne l'instance d'environnement de test.'''
         return self._test
     
     def setTest(self, testclass):
-        '''Modifie la classe du système de test de l'environnement.'''
-        assert isinstance(testclass, sudotest.SudoTest)
-        self._test = testclass()
+        '''Permet d'utiliser un autre environnement de test créé extérieurement'''
+        try:
+            assert isinstance(testclass, sudotest.SudoTest)
+        except:
+            raise Exception("Erreur d'initialisation de l'environnement.")
+        self._test = testclass
         return
 
-    test = property(getTest, setTest, doc=\
-        '''Permet de faire dans le code :
-        TEST = env.TEST
-        TEST.display(<label>, <level>, <Test output>)
-        ''')
-    TEST = test
+    test = property(getTest, setTest)
 
     def setName(self, name):
-        '''Modifie le nom de l'environnement = une chaîne de caractères.'''
-        assert isinstance(name, str)
+        '''Modifie le nom de l'environnement = une chaîne de caractères.
+        Le nom ne peut pas être vide'''
+        assert isinstance(name, str) and not name==""
         self._name = name
         return
 
@@ -136,11 +128,15 @@ class SudoEnv():
 
     name = property(getName, setName)
 
-##Voir si l'on met aussi une méthode setter et un attribut property pour ui
+#### EVOLUTION : Voir si l'on met permet d'assigner un autre environnement 
+#### d'interface UI défini extérieurement. Permettrait à plusieurs instances de
+#### simulation de partager une interface UI commune.    
+#### Dans ce cas ajouter getter + setter.
     @property
     def ui(self):
         return self._ui
 
+##Méthodes d'affichage
     def display(self, text=None):
         '''Affiche un texte sur l'interface UI. Identique à ui.display().
         Un texte vide fait afficher un saut de ligne '\n'.
@@ -149,10 +145,21 @@ class SudoEnv():
         assert isinstance(text, str) 
         return self._ui.display(text)
     
-    def displayError(self, title, text):
+    def displayError(self, title=None, text=None):
+        '''Affiche une erreur avec la fonction de ui d'affichage avec titre.
+        Le texte d'erreur ne devrait pas être vide donc exception dans ce cas.
+        S'il n'y a qu'un seul paramètre, l'utilise comme texte avec titre "Erreur"
+        '''
         #important pour la sécurité (faille par dépassement de buffer)
         assert isinstance(title, str) or title is None
         assert isinstance(text, str) or text is None
+        #s'il n'y a qu'un seul paramètre il devient le texte et non le titre
+        if (title is not None and not title == "") \
+           and (text is None or text == ""):
+            text = title
+            title = "Erreur"
+        elif title is None or title == "":
+            title = "Erreur"
         return self._ui.displayError(title, text)
 
 ##Quelques méthodes qui permettrent de paramétrer ditectement le système de test
@@ -180,30 +187,36 @@ class SudoEnv():
         return
         
 #end class SudoEnv
-DEFAULT_ENV = SudoEnv           #Classe d'environnement par défaut
+#DEFAULT_ENV = SudoEnv           #Classe d'environnement par défaut
 
 
 
 class SudoEnvQuiet(SudoEnv):
     '''Cette sous-classe rend le système de test silencieux et supprime
-    les outputs de ses propres méthodes.
+    tous les affichages quand les méthodes de SudoEnv sont utilisées.
     '''
-    def __init__(self, envname=None, testclass=None):
-        '''Ne tient pas compte des paramètres.'''
-        self._name = "Quiet environment"
-        self._test = sudotest.SudoTest()
-        self._test.beQuiet(True)
-        self._ui = ui
-##Après évolution du module 'sudoui'
+    def __init__(self, envname=None):
+        '''Reprend l'initialisation de la classe SudoEnv. S'il n'y a pas de
+        nom mettre un nom explicite.
+        '''
+        if envname is None or \
+           (isinstance(envname, str) and envname == ""):
+            envname = "Silencieux"
+        SudoEnv.__init__(self, envname)
+        self._test.isQuiet = True
+
+#### EVOLUTION - Après évolution du module 'sudoui' avec classe SudoUI:
         #self._ui.noOutput()
+        
         return
 
-    def display(self, text):
+    def display(self, text=None):
         '''N'affiche rien dans la classe SudoEnvQuiet.'''
         return
 
-    def displayError(self, title, text):
+    def displayError(self, title=None, text=None):
         '''N'affiche rien dans la classe SudoEnvQuiet.'''
         return
                  
 #end class SudoEnvQuiet
+
