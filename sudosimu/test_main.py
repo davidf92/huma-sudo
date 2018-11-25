@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 '''Module 'test_main' : A importer dans la section #if __name__ == "__main__"
 des modules pour les tests unitaires. Fonctions utilitaires pour les tests
 incluant :

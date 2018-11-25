@@ -522,7 +522,7 @@ if __name__ == "__main__":
 
     import sudotestall
     from sudogrid import SudoGrid
-    from main_test import *
+    from test_main import *
 
     #interface
     testlev(0)

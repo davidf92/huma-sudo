@@ -1,42 +1,45 @@
-# -*- coding: cp1252 -*-
+# -*- coding: utf8 -*-
 
 '''Programme SudoSimu
-Simulation de résolution humaine du jeu de Sudoku
-Module sudotest : support d'I/O pour le suivi d'exécution et le test du code.
+Simulation de rÃ©solution humaine du jeu de Sudoku
+Module sudotest : support d'I/O pour le suivi d'exÃ©cution et le test du code.
 
-Principales méthodes :
-    test(): ajoute une clé de gestion de test
-    untest() : retire une clé
-    level() : retourne ou modifie le niveau de gestion d'une clé
-    clear() : vide le dictionnaire des clés de test gérées
+Principales mÃ©thodes :
+    test(): ajoute une clÃ© de gestion de test
+    untest() : retire une clÃ©
+    level() : retourne ou modifie le niveau de gestion d'une clÃ©
+    clear() : vide le dictionnaire des clÃ©s de test gÃ©rÃ©es
 
-Les méthodes suivantes exécutent des actions selon le niveau de la clé
-fournie en argument et le niveau demandé
+Les mÃ©thodes suivantes exÃ©cutent des actions selon le niveau de la clÃ©
+fournie en argument et le niveau demandÃ©
     display() : affiche un texte 
     showgrid() : affiche la grille 
     pause() : fait une pause console avec gestion des interruptions (Ctrl-c)
-    iftest() : return True ou False suivant la validation du niveau de la clé
-    raiseArgs() : déclenche une exception suivant le niveau de la clé
+    iftest() : return True ou False suivant la validation du niveau de la clÃ©
+    raiseArgs() : dÃ©clenche une exception suivant le niveau de la clÃ©
 '''
 '''
-Dernière mise à jour : 14/11/2018
-14/11/2018 - Correction dans pause() paramètres correspondant à sudoui.pause()
-14/11/2017 - Ajout de la méthode 'beQuiet' pour supprier tous les outputs.
+DerniÃ¨re mise Ã  jour : 25/11/2018
+25/11/2018 # -*- coding: utf8 -*-
+14/11/2018 - Correction dans pause() paramÃ¨tres correspondant Ã  sudoui.pause()
+14/11/2017 - Ajout de la mÃ©thode 'beQuiet' pour supprier tous les outputs.
     Permet de faire des environnements silencieux. Mais les autres
-    fonctionnalités sont concervées.
-04/10/2017 - Ajout de la méthode raiseArgs
-    Mise-à-jour de l'en-tête et de commentaires
+    fonctionnalitÃ©s sont concervÃ©es.
+04/10/2017 - Ajout de la mÃ©thode raiseArgs
+    Mise-Ã -jour de l'en-tÃªte et de commentaires
 '''
 
-#Imports suivant que l'exécution est intérieure ou extérieure au package
+#Imports suivant que l'exÃ©cution est intÃ©rieure ou extÃ©rieure au package
 if __name__ in ("__main__", "sudotest"):
-    import sudoui as ui
     import sudorules as rules
     import sudogrid
+#    from sudotestall import *   #labels pour les tests
+    import sudoui as ui
 elif __name__ == "sudosimu.sudotest":
-    from sudosimu import sudoui as ui
     from sudosimu import sudorules as rules
     from sudosimu import sudogrid
+#    from sudosimu.sudotestall import *   #labels pour les tests
+    from sudosimu import sudoui as ui
 else:
     raise Exception("Impossible de faire les imports dans le module sudotest.")
 
@@ -48,17 +51,17 @@ MODE_BOTH = -2      #affiche dans les deux, dont GUI suivant le niveau
 
 
 class SudoTest():
-    '''Classe utilisée pour gérer des paramètres et des interactions UI
+    '''Classe utilisÃ©e pour gÃ©rer des paramÃ¨tres et des interactions UI
     lors du test du code.
     '''
 
     def __init__(self):
-        '''Crée le dictionnaire pour contenir les clés et niveaux '''
+        '''CrÃ©e le dictionnaire pour contenir les clÃ©s et niveaux '''
         self._tstdict = dict()
-        #Modes d'affichage par défaut = console + GUI
+        #Modes d'affichage par dÃ©faut = console + GUI
         self._modeUI = MODE_BOTH
         self._modeUIlevel = 1
-        self._beQuiet = False #variable privée de mode sans output
+        self._beQuiet = False #variable privÃ©e de mode sans output
 
     def beQuiet(self, choice=True):
         assert choice in (True, False)
@@ -66,14 +69,14 @@ class SudoTest():
         return
     
     def exceptQuiet(self, text):
-        '''Ne retourne pas le texte en paramètre si le mode 'quiet' est actif.
+        '''Ne retourne pas le texte en paramÃ¨tre si le mode 'quiet' est actif.
         '''
         return (text if self._beQuiet is not True else None)
 
     def test(self, key, level=0):
-        '''Ajoute la clé indiquée avec son niveau. La clé est transformée
-        en chaîne de caractères, donc la clé 1 est stockée comme "1".
-        Permet aussi de changer le niveau de la clé si elle existe déjà.
+        '''Ajoute la clÃ© indiquÃ©e avec son niveau. La clÃ© est transformÃ©e
+        en chaÃ®ne de caractÃ¨res, donc la clÃ© 1 est stockÃ©e comme "1".
+        Permet aussi de changer le niveau de la clÃ© si elle existe dÃ©jÃ .
         '''
         assert isinstance(level, int) or level is None
 ##        if level == 0:
@@ -84,26 +87,26 @@ class SudoTest():
         return
 
     def unTest(self, key):
-        '''Retire la clé indiquée. '''
+        '''Retire la clÃ© indiquÃ©e. '''
         self._tstdict.pop(str(key),None)
         return
 
     def level(self,key, newlevel=None):
-        '''Retourne le niveau d'une clé existante ou fixe un nouveau niveau
-        s'il est indiqué. Si le nouveau niveau est 0, retire la clé.
-        Retourne None si la clé n'existe pas.
+        '''Retourne le niveau d'une clÃ© existante ou fixe un nouveau niveau
+        s'il est indiquÃ©. Si le nouveau niveau est 0, retire la clÃ©.
+        Retourne None si la clÃ© n'existe pas.
         '''
         assert isinstance(newlevel, int) or newlevel is None
         level = self._tstdict.get(str(key), None)
-        if level is not None:    #si la clé existe déjà
+        if level is not None:    #si la clÃ© existe dÃ©jÃ 
             if newlevel is not None:
                 self.test(key, newlevel)
                 level = newlevel
         return level
 
     def levelAll(self, newlevel=None):
-        '''Met toutes les clés au niveau indiqué. Si le niveau est 0, retire
-        toutes les clés. S'il n'est pas indiqué (None), ne fait rien.
+        '''Met toutes les clÃ©s au niveau indiquÃ©. Si le niveau est 0, retire
+        toutes les clÃ©s. S'il n'est pas indiquÃ© (None), ne fait rien.
         '''
         assert isinstance(newlevel, int) or newlevel is None
         if newlevel is None or newlevel<0:
@@ -120,17 +123,17 @@ class SudoTest():
         return
         
     def display(self, key, level, txt):
-        '''Affiche le texte si la clé est dans le dict et si son niveau
-        est >= à celui demandé.
-        Par exception, le texte n'est pas affiché si le niveau demandé
-        est 0 (zéro) même si le niveau de la clé est 0.
-        Le texte est affichée dans l'interface STD ou GUI suivant le mode actif.
+        '''Affiche le texte si la clÃ© est dans le dict et si son niveau
+        est >= Ã  celui demandÃ©.
+        Par exception, le texte n'est pas affichÃ© si le niveau demandÃ©
+        est 0 (zÃ©ro) mÃªme si le niveau de la clÃ© est 0.
+        Le texte est affichÃ©e dans l'interface STD ou GUI suivant le mode actif.
         '''
         #ne fait rien en mode 'quiet'
         if self._beQuiet is True:
             return None
         
-        keylev = self._tstdict.get(str(key), None)  #None si clé absente
+        keylev = self._tstdict.get(str(key), None)  #None si clÃ© absente
         if keylev != None and keylev >= level:
             if self._modeUI == MODE_GUI \
                 or (self._modeUI in (MODE_SELECT, MODE_BOTH) \
@@ -140,7 +143,7 @@ class SudoTest():
                 or (self._modeUI == MODE_SELECT and level > self._modeUIlevel) \
                 or self._modeUI == MODE_BOTH:
                 ui.displaySTD(txt)     #dans la console STD
-            #s'il y a un affichage graphique, mettre à jour la fenêtre
+            #s'il y a un affichage graphique, mettre Ã  jour la fenÃªtre
             if self._modeUI in (MODE_GUI, MODE_BOTH):
                 ui.updateGUI()
                 pass
@@ -148,18 +151,18 @@ class SudoTest():
 
     def displayError(self, key, level, txt):
         '''Affiche un texte de type Erreur, donc avec des supports d'affichage
-        éventuellement différents.
+        Ã©ventuellement diffÃ©rents.
         '''
-## Pour le moment ne fait rien de différent de display(). A upgrader plus tard
+## Pour le moment ne fait rien de diffÃ©rent de display(). A upgrader plus tard
         return self.display(key, level, txt)
         
     def displayUImode(self, mode, level=1):
-        '''Définit le mode d'affichage de test : soit dans l'interface
+        '''DÃ©finit le mode d'affichage de test : soit dans l'interface
         utilisateur active (STD ou GUI), soit toujours dans la console.
-        Si mode est SELECT l'affichage est déterminé par le niveau limite
-        indiqué :
+        Si mode est SELECT l'affichage est dÃ©terminÃ© par le niveau limite
+        indiquÃ© :
         <= level  --> affichage interface active STD ou GUI,
-        > level  --> affichage STD forcé.
+        > level  --> affichage STD forcÃ©.
         Si mode est BOTH, l'affichage est fait dans l'interface active  suivant
         le niveau, ainsi que toujours fait dans l'interface STD
         '''
@@ -175,15 +178,15 @@ class SudoTest():
         return
 
     def showgrid(self, key, level, grid, txt=None, style=None):
-        '''Affiche la grille si la clé est dans le dict et si son niveau
-        est >= à celui demandé. La grille est toujours affichée dans la console.
+        '''Affiche la grille si la clÃ© est dans le dict et si son niveau
+        est >= Ã  celui demandÃ©. La grille est toujours affichÃ©e dans la console.
         En mode 'quiet' aucun affichage de grille.
         '''
         #ne fait rien en mode 'quiet'
         if self._beQuiet is True:
             return None
 
-        keylev = self._tstdict.get(str(key), None)  #None si clé absente
+        keylev = self._tstdict.get(str(key), None)  #None si clÃ© absente
         if keylev != None and keylev >= level:
             if txt == None:
                 txt = "Etat de la grille:"
@@ -194,14 +197,14 @@ class SudoTest():
         
     def pause(self, key, level, pauseResume=False,pauseText=None):
         '''pause conditionnelle suivant le niveau de test.
-        Voir sudoui.pause() pour les détails d'exécution de la pause.
-        Cette méthode n'est pas affectée par le mode 'quiet'.
+        Voir sudoui.pause() pour les dÃ©tails d'exÃ©cution de la pause.
+        Cette mÃ©thode n'est pas affectÃ©e par le mode 'quiet'.
         '''
-        keylev = self._tstdict.get(str(key), None)  #None si clé absente
+        keylev = self._tstdict.get(str(key), None)  #None si clÃ© absente
         if keylev != None and keylev >= level:
             #faire la pause 
             r = ui.pause(pauseResume, pauseText)
-            #si le mode graphique est actif, mettre à jour la fenêtre
+            #si le mode graphique est actif, mettre Ã  jour la fenÃªtre
             if self._modeUI in (MODE_GUI, MODE_BOTH):
                 ui.updateGUI()
             return r
@@ -209,11 +212,11 @@ class SudoTest():
             return True
 
     def ifLevel(self, key, level):
-        '''retourne True si la clé et le niveau activent le test, retourne
-        False si la clé n'existe pas ou si le niveau est insuffisant.
-        Cette méthode n'est pas affectée par le mode 'quiet'.
+        '''retourne True si la clÃ© et le niveau activent le test, retourne
+        False si la clÃ© n'existe pas ou si le niveau est insuffisant.
+        Cette mÃ©thode n'est pas affectÃ©e par le mode 'quiet'.
         '''
-        keylev = self._tstdict.get(str(key), None)  #None si clé absente
+        keylev = self._tstdict.get(str(key), None)  #None si clÃ© absente
         if keylev != None and keylev >= level:
             return True
         else:
@@ -221,30 +224,30 @@ class SudoTest():
 
     def raiseArgs(self, key, level, exceptClass=rules.Sudoku_Error,
                                     exceptArgs=None):
-        '''Déclenche une exception de la classe et avec les arguments indiqués,
-        si la clé est dans le dictionnaire et si sa valeur est supérieure
-        au niveau indiqué. 
-        Cette méthode n'est pas affectée par le mode 'quiet'.
+        '''DÃ©clenche une exception de la classe et avec les arguments indiquÃ©s,
+        si la clÃ© est dans le dictionnaire et si sa valeur est supÃ©rieure
+        au niveau indiquÃ©. 
+        Cette mÃ©thode n'est pas affectÃ©e par le mode 'quiet'.
         '''
-        keylev = self._tstdict.get(str(key), None)  #None si clé absente
+        keylev = self._tstdict.get(str(key), None)  #None si clÃ© absente
         if keylev != None and keylev >= level:
             raise exceptClass(exceptArgs)
         
     @property
     def keys(self):
-        '''Retourne le dictionnaire des clés de test enregistrées.
-        Cette méthode n'est pas affectée par le mode 'quiet'.
+        '''Retourne le dictionnaire des clÃ©s de test enregistrÃ©es.
+        Cette mÃ©thode n'est pas affectÃ©e par le mode 'quiet'.
         '''
         return self._tstdict.copy()
     
     def __str__(self):
-        '''Retourne une forme de texte le contenu du dictionnaire des clés.
-        Le texte est la suite des clés, chacune sur une ligne.
+        '''Retourne une forme de texte le contenu du dictionnaire des clÃ©s.
+        Le texte est la suite des clÃ©s, chacune sur une ligne.
         '''
         strkeys = ""
         i = False
         for key in self._tstdict:
-            if not i:                #pour éviter le \n au début
+            if not i:                #pour Ã©viter le \n au dÃ©but
                 strkeys = "{0} : {1}".format(key,self._tstdict[key])
                 i = True
             else:
@@ -256,23 +259,26 @@ class SudoTest():
     
 
     
-#On crée une instance de SudoTest pour être utilisée dans tout le programme
-sudoTest = SudoTest()
-#alias = même objet
-TEST = sudoTest
+#On crÃ©e une instance globale de SudoTest pour tester le code dans tout les
+#modules.
+TEST = SudoTest()
 
 
+
+#TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+#TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
 if __name__ == "__main__":
+
     
 ##    TEST.test(1)
 ##    TEST.test(2)
-##    print(TEST.keys)    #doit imprimer {'2': 1, '1': 1} ou équivalent
+##    print(TEST.keys)    #doit imprimer {'2': 1, '1': 1} ou Ã©quivalent
 ##    TEST.test("pause")
 ##    print("Pause #1 sans arg continuer")
 ##    TEST.pause("pause",1)
-##    TEST.test("2",4)    #"2" = même clé que 2 déjà ajouté
-##    print(TEST.keys)          #doit imprimer {'2': 4, '1': 1} ou équivalent
-##    print(TEST)             #doit imprimer  2 : 4 (newline) 1 : 1 ou équivalent
+##    TEST.test("2",4)    #"2" = mÃªme clÃ© que 2 dÃ©jÃ  ajoutÃ©
+##    print(TEST.keys)          #doit imprimer {'2': 4, '1': 1} ou Ã©quivalent
+##    print(TEST)             #doit imprimer  2 : 4 (newline) 1 : 1 ou Ã©quivalent
 ##    print(TEST.level(5))    #doit imprimer None
 ##    print(TEST.level(1,0))
 ##    print("Pause #2 avec arg continuer")
@@ -282,14 +288,14 @@ if __name__ == "__main__":
     
     #test en mode graphique
     TEST.test("", 3)
-    print("Début du test graphique")
+    print("DÃ©but du test graphique")
     TEST.pause("", 1, True)
 
-    TEST.display("", 1, "Ouverture de la fenêtre...")
+    TEST.display("", 1, "Ouverture de la fenÃªtre...")
     TEST.pause("", 1, True)
     ui.UImode(ui.GUI)
     TEST.displayUImode(MODE_BOTH, 2)
-    TEST.display("", 1, "Fenêtre ouverte.")
+    TEST.display("", 1, "FenÃªtre ouverte.")
     TEST.pause("", 1, True)
 
     TEST.display("", 1, "Hello1")
@@ -301,7 +307,7 @@ if __name__ == "__main__":
     TEST.display("", 4, "Hello4")
     TEST.pause("", 1, True)
 
-    TEST.display("", 1, "Test en cachant la fenêtre principale")
+    TEST.display("", 1, "Test en cachant la fenÃªtre principale")
     ui.hideGUI()
     
     TEST.display("", 1, "Hello1")

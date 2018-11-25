@@ -1,46 +1,50 @@
-# -*- coding: cp1252 -*-
+# -*- coding: utf8 -*-
 
-'''Programme SudoSimu - Simulation de résolution humaine du jeu de Sudoku.
-Module sudoenv : environnement logiciel d'exécution du simulateur.
+'''Programme SudoSimu - Simulation de rÃ©solution humaine du jeu de Sudoku.
+Module sudoenv : environnement logiciel d'exÃ©cution du simulateur.
 
-L'environnement, à travers la classe SudoEnv, regroupe l'ensemble du contexte
-d'interface utilisateur, de log d'informations, d'accès à des bibliothèques de
-grilles, etc. Des environnements permettent par exemple de réaliser facilement
-de l'exécution en batch de résolutions en grandes quantités, sans interface
+L'environnement, Ã  travers la classe SudoEnv, regroupe l'ensemble du contexte
+d'interface utilisateur, de log d'informations, d'accÃ¨s Ã  des bibliothÃ¨ques de
+grilles, etc. Des environnements permettent par exemple de rÃ©aliser facilement
+de l'exÃ©cution en batch de rÃ©solutions en grandes quantitÃ©s, sans interface
 utilisateur, ou de faire des tests en interface console, ou en interface
 graphique.
-Les environnements sont construits comme une hiérarchie de classes, ce qui
-permet d'en créer facilement de nouveaux, par exemple pour un nouveau
+Les environnements sont construits comme une hiÃ©rarchie de classes, ce qui
+permet d'en crÃ©er facilement de nouveaux, par exemple pour un nouveau
 framework GUI.
 
-Une sous-classe particulière, SudoEnvQuiet, permet de supprimer totalement
-les outputs, ce qui est utile pour des utilisations en batch (résolutions
+Une sous-classe particuliÃ¨re, SudoEnvQuiet, permet de supprimer totalement
+les outputs, ce qui est utile pour des utilisations en batch (rÃ©solutions
 massives, apprentissage, etc.)
 
-Dernière mise à jour : 23/11/2018
+DerniÃ¨re mise Ã  jour : 25/11/2018
 Historique des modifications :
-23/11/2018 - Reprise pour bien fournir un système d'environnement généralisé
+25/11/2018 # -*- coding: utf8 -*-
+23/11/2018 - Reprise pour bien fournir un systÃ¨me d'environnement gÃ©nÃ©ralisÃ©
 au programme, qui englobe les UI et les moyens de test (SudoTest)
-15/11/2017 - Evolution pour utiliser le système d'environnement avec SudoEnv
+15/11/2017 - Evolution pour utiliser le systÃ¨me d'environnement avec SudoEnv
     ainsi que tout le support de TEST dans sudoenv.
 '''
 
 if __name__ in ("__main__", "sudoenv"):
     import sudorules as rules
     import sudotest
+#    from sudotestall import *   #constantes pour les tests
     import sudoui as ui
+
 elif __name__ == "sudosimu.sudoenv":
     from sudosimu import sudorules as rules
     from sudosimu import sudotest
+#    from sudosimu.sudotestall import *   #constantes pour les tests
     from sudosimu import sudoui as ui
 else:
     raise Exception("Impossible de faire les imports dans le module sudoenv.")
 
 #CONSTANTES
-#Système de test, label et niveau par défaut
-TEST_DEFAULTLABEL = "sudo"       #Label de test de code par défaut
-TEST_DEFAULTLEVEL = 0            #Niveau de test de code par défaut
-#Valeurs des niveaux de test par défaut pour les différents labels
+#SystÃ¨me de test, label et niveau par dÃ©faut
+TEST_DEFAULTLABEL = "sudo"       #Label de test de code par dÃ©faut
+TEST_DEFAULTLEVEL = 0            #Niveau de test de code par dÃ©faut
+#Valeurs des niveaux de test par dÃ©faut pour les diffÃ©rents labels
 TEST_APPLEVEL = 0
 TEST_SIMPLEAPPLEVEL = 0
 TEST_PLAYERLEVEL = 0
@@ -57,7 +61,7 @@ TEST_AIRULELEVEL = 0
 TEST_AITACTSLEVEL = 0
 TEST_AINODELEVEL = 0
 TEST_AINODEINPUT = 0
-#Reprise de constantes déclarées dans d'autres modules
+#Reprise de constantes dÃ©clarÃ©es dans d'autres modules
 STD = ui.STD
 GUI = ui.GUI
 UI_STD = ui.UI_STD
@@ -74,16 +78,16 @@ TEST_SELECT = sudotest.MODE_SELECT
 TEST_BOTH = sudotest.MODE_BOTH
 
 class SudoEnv():
-    '''Cette classe représente l'environnement d'exécution du
+    '''Cette classe reprÃ©sente l'environnement d'exÃ©cution du
     simulateur. Elle fournit aux autres modules une interface UI et GUI, ainsi
     qu'un environnement de test et des fonctions d'affichage dans une console.
-    L'environnement peut éventuellement avoir un nom.
+    L'environnement peut Ã©ventuellement avoir un nom.
     '''
-    def __init__(self, envname=None):
-        '''Initialisation un environnement d'exécution et des interfaces que
+    def __init__(self, envname=None, testclass=None):
+        '''Initialisation un environnement d'exÃ©cution et des interfaces que
         l'environnement fournit. 
         '''
-        #vérificatioin des paramètres
+        #vÃ©rificatioin des paramÃ¨tres
         try:
             assert envname is None or isinstance(envname, str)
         except:
@@ -91,10 +95,16 @@ class SudoEnv():
         if envname is None or envname == "":
             envname = "Environnement"
         self._name = envname
-        self._test = sudotest.SudoTest()
+#ParamÃ¨tre 'testclass': permet d'utiliser une autre classe de test que celle
+#incluse dans sudosimu. C'est Ã  son dÃ©veloppeur de s'assurer que cette autre
+#classe supporte bien toutes les mÃ©thodes de SudoTest
+        if testclass is None:
+            self._test = sudotest.SudoTest()
+        else:
+            self._test = testclass()
 
 #### A MODIFIER IMPERATIVEMENT APRES EVOLUTION DU MODULE SUDOUI qui devrait
-#### créer une classe SudoUI et donc instancier self._ui = SudoUI()
+#### crÃ©er une classe SudoUI et donc instancier self._ui = SudoUI()
         #interface UI
         self._ui = ui   #c'est le module - ni une classe ni une instance.
 
@@ -105,19 +115,24 @@ class SudoEnv():
         return self._test
     
     def setTest(self, testclass):
-        '''Permet d'utiliser un autre environnement de test créé extérieurement'''
+        '''Permet d'utiliser un autre environnement de test crÃ©Ã© extÃ©rieurement'''
         try:
             assert isinstance(testclass, sudotest.SudoTest)
         except:
             raise Exception("Erreur d'initialisation de l'environnement.")
-        self._test = testclass
+        self._test = testclass()
         return
 
     test = property(getTest, setTest)
 
+## VERIFIER L'UTILITE DE CE CODE
+## Permettre de faire dans le code : TEST = env.TEST
+## et utiliser TEST.display() et les autres
+    TEST = test
+
     def setName(self, name):
-        '''Modifie le nom de l'environnement = une chaîne de caractères.
-        Le nom ne peut pas être vide'''
+        '''Modifie le nom de l'environnement = une chaÃ®ne de caractÃ¨res.
+        Le nom ne peut pas Ãªtre vide'''
         assert isinstance(name, str) and not name==""
         self._name = name
         return
@@ -129,31 +144,31 @@ class SudoEnv():
     name = property(getName, setName)
 
 #### EVOLUTION : Voir si l'on met permet d'assigner un autre environnement 
-#### d'interface UI défini extérieurement. Permettrait à plusieurs instances de
+#### d'interface UI dÃ©fini extÃ©rieurement. Permettrait Ã  plusieurs instances de
 #### simulation de partager une interface UI commune.    
 #### Dans ce cas ajouter getter + setter.
     @property
     def ui(self):
         return self._ui
 
-##Méthodes d'affichage
+##MÃ©thodes d'affichage
     def display(self, text=None):
-        '''Affiche un texte sur l'interface UI. Identique à ui.display().
+        '''Affiche un texte sur l'interface UI. Identique Ã  ui.display().
         Un texte vide fait afficher un saut de ligne '\n'.
         '''
-        #important pour la sécurité (faille par dépassement de buffer)
+        #important pour la sÃ©curitÃ© (faille par dÃ©passement de buffer)
         assert isinstance(text, str) 
         return self._ui.display(text)
     
     def displayError(self, title=None, text=None):
         '''Affiche une erreur avec la fonction de ui d'affichage avec titre.
-        Le texte d'erreur ne devrait pas être vide donc exception dans ce cas.
-        S'il n'y a qu'un seul paramètre, l'utilise comme texte avec titre "Erreur"
+        Le texte d'erreur ne devrait pas Ãªtre vide donc exception dans ce cas.
+        S'il n'y a qu'un seul paramÃ¨tre, l'utilise comme texte avec titre "Erreur"
         '''
-        #important pour la sécurité (faille par dépassement de buffer)
+        #important pour la sÃ©curitÃ© (faille par dÃ©passement de buffer)
         assert isinstance(title, str) or title is None
         assert isinstance(text, str) or text is None
-        #s'il n'y a qu'un seul paramètre il devient le texte et non le titre
+        #s'il n'y a qu'un seul paramÃ¨tre il devient le texte et non le titre
         if (title is not None and not title == "") \
            and (text is None or text == ""):
             text = title
@@ -162,7 +177,7 @@ class SudoEnv():
             title = "Erreur"
         return self._ui.displayError(title, text)
 
-##Quelques méthodes qui permettrent de paramétrer ditectement le système de test
+##Quelques mÃ©thodes qui permettrent de paramÃ©trer ditectement le systÃ¨me de test
     def testLabel(self, key, level=0):
         return self._test.test(key, level)
 
@@ -171,29 +186,29 @@ class SudoEnv():
 
     @property
     def testKeys(self):
-        '''Retourne le dictionnaire de clés du système de test de code de
+        '''Retourne le dictionnaire de clÃ©s du systÃ¨me de test de code de
         l'environnement.
         '''
         return self._test.keys
 
     def testDispKeys(self):
-        '''Affiche en liste les clés du système de test de code.'''
-        keys = self._test.keys #dictionnaire des clés
+        '''Affiche en liste les clÃ©s du systÃ¨me de test de code.'''
+        keys = self._test.keys #dictionnaire des clÃ©s
         if len(keys) == 0:
-            ui.display("Aucune clé dans TEST.")
+            ui.display("Aucune clÃ© dans TEST.")
         else:
             for testkey in keys:
                 ui.display("\"{0}\" : {1}".format(testkey, keys[testkey]))
         return
         
 #end class SudoEnv
-#DEFAULT_ENV = SudoEnv           #Classe d'environnement par défaut
+DEFAULT_ENV = SudoEnv           #Classe d'environnement par dÃ©faut
 
 
 
 class SudoEnvQuiet(SudoEnv):
-    '''Cette sous-classe rend le système de test silencieux et supprime
-    tous les affichages quand les méthodes de SudoEnv sont utilisées.
+    '''Cette sous-classe rend le systÃ¨me de test silencieux et supprime
+    tous les affichages quand les mÃ©thodes de SudoEnv sont utilisÃ©es.
     '''
     def __init__(self, envname=None):
         '''Reprend l'initialisation de la classe SudoEnv. S'il n'y a pas de
@@ -205,7 +220,7 @@ class SudoEnvQuiet(SudoEnv):
         SudoEnv.__init__(self, envname)
         self._test.isQuiet = True
 
-#### EVOLUTION - Après évolution du module 'sudoui' avec classe SudoUI:
+#### EVOLUTION - AprÃ¨s Ã©volution du module 'sudoui' avec classe SudoUI:
         #self._ui.noOutput()
         
         return

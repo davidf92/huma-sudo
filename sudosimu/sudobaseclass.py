@@ -69,10 +69,9 @@ class SudoBaseClass(object):
         return True
         
     def setEnv(self, env):
-        '''Indique un nouvel environnement pour la simulation.
-        Ne fait rien ici car c'est toujours l'environnement de base.
-        '''
-        assert isinstance(env, sudoenv.SudoEnv) or env is None
+        '''Indique un nouvel environnement pour la simulation.'''
+        #Vérifier que c'est un objet SudoEnv
+        assert isinstance(env, sudoenv.SudoEnv)
         return
 
     def getEnv(self):
